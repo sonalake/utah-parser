@@ -1,0 +1,54 @@
+<config>
+    <searches>
+
+        <search id="interface"><![CDATA[(\S{2}\d):]]></search>
+        <search id="mac"><![CDATA[([\d\w:]+)]]></search>
+        <search id="inet6"><![CDATA[([^%]+)]]></search>
+        <search id="inet4"><![CDATA[([\d\.]+)]]></search>
+        <search id="netmask"><![CDATA[(\S+)]]></search>
+
+
+        <!-- Some rules for finding text, to make the values a little easier below -->
+
+        <search id="numbers"><![CDATA[(\d+)]]></search>
+        <search id="EOL"><![CDATA[[\n\r]]]></search>
+    </searches>
+
+    <!-- the record starts with a line with an ip address and ends with either an inet6 line, or where the ids are at
+    the end of the line-->
+    <delim delim-at-start="true">^{interface}.*</delim>
+
+
+    <!--
+    Files look like this:
+
+lo0: flags=8049<UP,LOOPBACK,RUNNING,MULTICAST> mtu 16384
+	inet6 ::1 prefixlen 128
+	inet6 fe80::1%lo0 prefixlen 64 scopeid 0x1
+	inet 127.0.0.1 netmask 0xff000000
+en0: flags=8863<UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST> mtu 1500
+	ether 34:15:9e:27:45:e3
+	inet6 fe80::3615:9eff:fe27:45e3%en0 prefixlen 64 scopeid 0x4
+	inet6 2001:db8::3615:9eff:fe27:45e3 prefixlen 64 autoconf
+	inet 192.0.2.215 netmask 0xfffffe00 broadcast 192.0.2.255
+	media: autoselect (1000baseT <full-duplex,flow-control>)
+	status: active
+en1: flags=8863<UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST> mtu 1500
+	ether 90:84:0d:f6:d1:55
+	media: <unknown subtype> (<unknown type>)
+	status: inactive
+
+  -->
+    <values>
+        <!-- here we reuse the line pattern, only we pull out different group values -->
+        <value id="interface"><![CDATA[{interface}]]></value>
+        <value id="mtu" group="2"><![CDATA[{interface}.*? mtu {numbers}\s*{EOL}]]></value>
+        <value id="ether" ><![CDATA[ether\s*{mac}]]></value>
+        <value id="inet6" group="1"><![CDATA[inet6\s*{inet6} prefixlen {numbers}]]></value>
+        <value id="prefixlen" group="2" ><![CDATA[inet6\s*{inet6} prefixlen {numbers}]]></value>
+
+        <value id="inet4" group="1"><![CDATA[inet\s*{inet4} netmask {netmask}]]></value>
+        <value id="netmask" group="2"><![CDATA[inet\s*{inet4} netmask {netmask}]]></value>
+
+    </values>
+</config>

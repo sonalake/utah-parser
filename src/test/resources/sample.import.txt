@@ -1,0 +1,14 @@
+This is a semi-structured record
+Some ID: 123
+Some other ID: 456
+Some text: what'll I do?
+Some other text: without you?
+Interval:
+10/22/2015 12:00:00 AM - 12/31/2015 11:59:00 PM
+====================================================
+This is another semi-structured record
+Some ID: 987
+Some other ID: 654
+Some text: some fields are missing!
+Interval:
+10/22/2015 12:00:00 AM
