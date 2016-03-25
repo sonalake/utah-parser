@@ -7,7 +7,7 @@ jdk:
 install: true
 
 script:
-- mvn clean install
+- mvn --settings settings.xml clean install
 
 after_success:
 - mvn deploy --settings settings.xml -DskipTests=true -B
