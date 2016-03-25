@@ -20,4 +20,5 @@ final class FileBuilder {
   StringReader buildReader() {
     return new StringReader(file.toString());
   }
+
 }

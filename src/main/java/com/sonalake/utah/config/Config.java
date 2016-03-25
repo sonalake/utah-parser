@@ -1,6 +1,5 @@
 package com.sonalake.utah.config;
 
-
 import org.apache.commons.lang3.StringUtils;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -149,7 +148,7 @@ public class Config {
     }
     return true;
   }
-  
+
   /**
    * Get the applicable delimiter for the candidate. The first delimiter that matches the  text as used.
    *

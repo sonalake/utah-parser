@@ -52,4 +52,5 @@ public class ConfigLoader {
     }
     config.compilePatterns();
   }
+
 }

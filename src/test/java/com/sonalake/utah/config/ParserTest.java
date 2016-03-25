@@ -15,7 +15,6 @@ import static org.junit.Assert.assertEquals;
  * A test of the parser
  */
 public class ParserTest {
-
   private Config config;
 
   @Before
@@ -26,7 +25,6 @@ public class ParserTest {
     config.values = new ArrayList<ValueRegex>();
     config.headers = new ArrayList<ValueRegex>();
   }
-
 
   /**
    * Test the parser works when we have multiple, multiple-line records
@@ -58,7 +56,6 @@ public class ParserTest {
     assertEquals(expectedValues, results);
   }
 
-
   /**
    * Test we can do per line parsing
    */
@@ -89,7 +86,6 @@ public class ParserTest {
 
     assertEquals(expectedValues, results);
   }
-
 
   /**
    * Test we can do per line parsing, wher we pull values from a header, and insert them into each entry we find
@@ -168,12 +164,10 @@ public class ParserTest {
     assertEquals(expectedValues, results);
   }
 
-
   private void addHeaderDelimiter(String s) {
     config.headerDelimiter = new HeaderDelimiter();
     config.headerDelimiter.delimiter = s;
   }
-
 
   private List<Map<String, String>> loadFile(FileBuilder file) {
     config.compilePatterns();
@@ -196,7 +190,6 @@ public class ParserTest {
     config.searches.add(new NameValue(id, pattern));
   }
 
-
   private void addValue(String id, int group, String pattern) {
     ValueRegex regex = new ValueRegex(id, pattern);
     regex.group = group;
@@ -206,7 +199,6 @@ public class ParserTest {
   private void addValue(String id, String pattern) {
     addValue(id, 1, pattern);
   }
-
 
   private void addHeaderValue(String id, String pattern) {
     ValueRegex regex = new ValueRegex(id, pattern);
@@ -230,4 +222,5 @@ public class ParserTest {
     delimiter.isPerLine = true;
     config.delimiters.add(delimiter);
   }
+
 }

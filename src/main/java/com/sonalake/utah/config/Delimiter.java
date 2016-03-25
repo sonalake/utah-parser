@@ -104,4 +104,5 @@ public class Delimiter {
   public boolean isDelimAtStartOfRecord() {
     return isDelimAtStartOfRecord;
   }
+
 }

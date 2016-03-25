@@ -33,6 +33,6 @@ public class HeaderDelimiter {
   void compile(List<NameValue> searches) {
     String valueText = SearchHelper.translate(delimiter, searches);
     compiledPattern = Pattern.compile(".*?" + valueText + ".*?");
-
   }
+
 }

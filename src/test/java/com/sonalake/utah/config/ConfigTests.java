@@ -1,6 +1,5 @@
 package com.sonalake.utah.config;
 
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,13 +29,11 @@ import static org.junit.Assert.assertTrue;
  */
 public class ConfigTests {
 
-
   /**
    * We build up an XML doc in this and then generate it into a string before
    * parsing it with the config
    */
   private Document document;
-
 
   @Before
   public void setup() throws ParserConfigurationException {
@@ -65,7 +62,6 @@ public class ConfigTests {
 
   }
 
-
   /**
    * If the config has values with no groups, then fail out
    */
@@ -77,7 +73,6 @@ public class ConfigTests {
     addValue("value", "{number}(");
     new ConfigLoader().loadConfig(buildDocReader());
   }
-
 
   /**
    * Create a valid document that can handle values and then confirm it with parsing
@@ -136,7 +131,6 @@ public class ConfigTests {
     assertFalse(delimiter.matches(""));
   }
 
-
   @Test
   public void testRetainDelim() throws TransformerException, JAXBException {
     createEmptyDocument();
@@ -149,7 +143,6 @@ public class ConfigTests {
     assertTrue(delimiter.isRetainDelim());
     assertTrue(delimiter.isRetainDelim);
   }
-
 
   @Test
   public void testDelimAtStart() throws TransformerException, JAXBException {
@@ -169,7 +162,6 @@ public class ConfigTests {
     assertFalse(delimiter.isRetainDelim);
   }
 
-
   /**
    * Create a valid document that can handle headers and then confirm it with parsing
    */
@@ -184,8 +176,6 @@ public class ConfigTests {
     Map<String, String> header = config.buildHeader("this is a header 999y hello");
     assertEquals("999", header.get("header"));
   }
-
-
 
   /**
    * Add a search to the config
@@ -216,7 +206,6 @@ public class ConfigTests {
     Element groupNode = findGroupNode("header");
     createElementInGroup(groupNode, "value", id, regex);
   }
-
 
   /**
    * Create and add an element in the group
@@ -279,7 +268,6 @@ public class ConfigTests {
     return element;
   }
 
-
   /**
    * Create and add a delimiter element to the config node
    * @return the empty delimiter
@@ -290,8 +278,6 @@ public class ConfigTests {
     element.appendChild(newChild);
     return newChild;
   }
-
-
 
   /**
    * Add a delimiter to the config node
@@ -315,8 +301,6 @@ public class ConfigTests {
     newChild.setTextContent(delim);
     return element;
   }
-
-
 
   /**
    * Find the config node in the document

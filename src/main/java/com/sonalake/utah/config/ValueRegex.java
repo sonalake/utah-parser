@@ -38,7 +38,7 @@ public class ValueRegex extends NameValue {
   ValueRegex(String id, String value) {
     super(id, value);
   }
-  
+
   /**
    * Get the group value - if no group is defined, then we use 1 by default
    *
@@ -93,4 +93,5 @@ public class ValueRegex extends NameValue {
   Matcher buildMatcher(String recordText) {
     return compiledPattern.matcher(recordText);
   }
+
 }

@@ -20,7 +20,6 @@ import java.util.TreeMap;
  */
 public class ExamplesTest {
 
-
   /**
    * In this test we load up the sample config and then process the sample input file, and then confirm the
    * data records are as expected.
@@ -53,7 +52,6 @@ public class ExamplesTest {
     testFileProcessing(configResource, fileResource, expectedResults);
 
   }
-
 
   /**
    * In this test we load up the sample config and then process the sample input file, and then confirm the
@@ -382,6 +380,5 @@ public class ExamplesTest {
 
     Assert.assertEquals(expectedResults, observedValues);
   }
-
 
 }
