@@ -8,10 +8,10 @@ before_install:
 - openssl aes-256-cbc -pass "pass:$ENCRYPTION_PASSWORD" -in .travis/pubring.gpg.enc -out .travis/pubring.gpg -d
 - openssl aes-256-cbc -pass "pass:$ENCRYPTION_PASSWORD" -in .travis/secring.gpg.enc -out .travis/secring.gpg -d
 after_success:
-- mvn --settings travis/settings.xml clean test jacoco:report coveralls:report
+- mvn --settings .travis/settings.xml clean test jacoco:report coveralls:report
 notifications:
   slack:
-    secure: Ub7C6cHR2twmLgXvRtcYhRnibhKYBbY/bBeWa2vilQlXGVBF8r259p/VUYJ6peTmit6lHHIJlJjJpeL7U8VmBMGwf7PAKkXBlC4BuRBBzcfJzaYUbC3hUtrqI19GQNv0/knUKQN+csenJuIKYe9ZYP0PDtpP7IJrSZWZdlqjqhagXs10I0ofJLRmU5GSRFVInu0TkTKSO4XZpewlC+ubTMjVTZFhK5xLjTqX2GFW8jHwlRMrmq/tHSpGpfJ+HnD3jXLPxDe3kmghiI2uAafw8mM8EnKiQQB55ad06GYEoT5Ztt7hOJUxiLbu+/T/YJdKIhAJkleLNSFxdGB7TsqeKifCfLo2UQHq8H56cmZQj7jnCHAYcdAw9jUY1lCRYjJIkB73xQ2YsvHI+DOKW2sWunc/Be2w8ywzfIkuE70ABF7ajjlpt65lr9pbmEDV8dgt+n944ThE1331JWsANmooNjUrttl9qgYKBZJAaJGS35lpJoRfSSLreb/xSmfPBBJlvctWpFaz8I5/kkr9WhlvUTzl/r3Y6EyV711Pn/xFTUZ1WaoW+pb7XehG5IT0TnnkaiKT2DqoadEFNUtRvpzAcfqRAMqHPBpP2DEO0PCLGZ0WJ/PcfVsOYQH91zZ+Oe2WY44UFk+2ppccTDT9ySCmEtrHr4D5okMGfahdMpKl7M8=
+    secure: Yol756TrF/pCwUOGo7SliC6Z8+DBz0eCzmCxKG/OUgSZAPffMc/FezblCg1IUcAuZQAM+vpqGBd0XweDoisKsrwlSzPrt9A0ZmyMxG3dcxPkk8IICSWsyYKRGrtM6a4B5s7KSHPxk4ICS9LedStU63K1rWlXk6EAcr7F+vQ62j9Pbh/DLZaQOYp0XsUEd0wseZy9tRtrFgvTXN00G8zjMBVq4OankFUGhYyL+eIMsoE0jPgrruvW7Kqo/Oswx6gokL7qgodmLsKB9UfjaO4z0YvudT766sxUSXHYW0E2ByB/A6EdMYbyLLhZBNM/jPAglM1OjWkcuq8C/zNF6yzlryjQdkktEjqivRhWYeEaTSwIZxy4/XqGh3QU12nwWbKldSHK+8g3HiiqauUi/wQP3QwzRd20BYtZaYZsl+D8HuJyAh8FXiA2umHv1U2yclSk+fMc+4brt01bPic++ltCbDluYr1cRTAiQdIhIs9hCN6a/RxsZV1k3IJVrJ7AYiR8SeQ+npju2NgKw3WMmOa7CJceuQ69UepV/GDyCnv0Ah/OWtKMp2Eb7snFMivHcbjjDTBKdgrofObtYwefB5e+9sbRr7is2ZJ/chwlSTTWz/VoHJCPQwqATHP9fWi+Rr81IvT2f9OZ87dSV47aV07vrz/qrOG5Wj/hd4H+xqkP2n4=
 env:
   global:
   - ROOT_DIR="`pwd`"
