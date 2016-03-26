@@ -1,0 +1,30 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <servers>
+        <server>
+            <id>ossrh</id>
+            <username>${env.CI_DEPLOY_USERNAME}</username>
+            <password>${env.CI_DEPLOY_PASSWORD}</password>
+        </server>
+    </servers>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <gpg.keyname>${env.GPG_KEYNAME}</gpg.keyname>
+                <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
+                <gpg.defaultKeyring>false</gpg.defaultKeyring>
+                <gpg.publicKeyring>${env.ROOT_DIR}/.travis/pubring.gpg</gpg.publicKeyring>
+                <gpg.secretKeyring>${env.ROOT_DIR}/.travis/secring.gpg</gpg.secretKeyring>
+                <repoToken>${env.COVERALLS_TOKEN}</repoToken>
+            </properties>
+        </profile>
+    </profiles>
+
+</settings>
