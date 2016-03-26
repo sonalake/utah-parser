@@ -146,4 +146,12 @@
         </repository>
     </distributionManagement>
 
+    <developers>
+        <developer>
+            <email>opensource@sonalake.com</email>
+            <organization>Sonalake</organization>
+            <organizationUrl>http://sonalake.com</organizationUrl>
+        </developer>
+    </developers>
+
 </project>
