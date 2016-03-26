@@ -3,7 +3,7 @@ sudo: false
 jdk:
 - oraclejdk7
 install: true
-script: mvn  --settings travis/settings.xml deploy
+script: mvn  --settings .travis/settings.xml deploy
 before_install:
 - openssl aes-256-cbc -pass "pass:$ENCRYPTION_PASSWORD" -in .travis/pubring.gpg.enc -out .travis/pubring.gpg -d
 - openssl aes-256-cbc -pass "pass:$ENCRYPTION_PASSWORD" -in .travis/secring.gpg.enc -out .travis/secring.gpg -d
