@@ -3,7 +3,7 @@ See: juniper_version_example.txt
 -->
 <config>
     <!-- There may be multiple records -->
-    <delim retain-delim="true">JUNOS Routing Software Suite</delim>
+    <delim retain="true">JUNOS Routing Software Suite</delim>
     <searches>
         <!-- Some rules for finding text, to make the values a little easier below -->
         <search id="textWrapped"><![CDATA[\[{text}\]]]></search>

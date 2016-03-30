@@ -27,13 +27,13 @@ public class Delimiter {
   /**
    * If true, then the delimiter is considered part of the record
    */
-  @XmlAttribute(name = "retain-delim")
+  @XmlAttribute(name = "retain")
   boolean isRetainDelim;
 
   /**
    * If true, then the delimiter is at the start of the record (by default, it's at the end)
    */
-  @XmlAttribute(name = "delim-at-start")
+  @XmlAttribute(name = "at-start")
   boolean isDelimAtStartOfRecord;
 
   /**

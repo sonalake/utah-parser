@@ -21,7 +21,7 @@
 
     <!-- the record starts with a line with an ip address and ends with either an inet6 line, or where the ids are at
     the end of the line-->
-    <delim retain-delim="true">{ipAddress}.*(\/\d+)\s*{EOL}</delim>
+    <delim retain="true">{ipAddress}.*(\/\d+)\s*{EOL}</delim>
     <delim>\s*({inet6})</delim>
 
     <!--

@@ -135,7 +135,7 @@ public class ConfigTests {
   public void testRetainDelim() throws TransformerException, JAXBException {
     createEmptyDocument();
     Element delimiterNode = addDelimiter("a line");
-    delimiterNode.setAttribute("retain-delim", "true");
+    delimiterNode.setAttribute("retain", "true");
     Config config = new ConfigLoader().loadConfig(buildDocReader());
 
     Delimiter delimiter = config.delimiters.get(0);
@@ -148,7 +148,7 @@ public class ConfigTests {
   public void testDelimAtStart() throws TransformerException, JAXBException {
     createEmptyDocument();
     Element delimiterNode = addDelimiter("a line");
-    delimiterNode.setAttribute("delim-at-start", "true");
+    delimiterNode.setAttribute("at-start", "true");
     Config config = new ConfigLoader().loadConfig(buildDocReader());
 
     Delimiter delimiter = config.delimiters.get(0);
