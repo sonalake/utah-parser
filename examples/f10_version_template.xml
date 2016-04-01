@@ -1,0 +1,21 @@
+<!--
+See: f10_version_example.txt
+-->
+<config>
+    <!-- There is only one record in this file -->
+    <delim one-record="true" />
+    <searches>
+        <!-- Some rules for finding text, to make the values a little easier below -->
+        <search id="text"><![CDATA[(\S+)]]></search>
+        <search id="string"><![CDATA[(.+?)]]></search>
+        <search id="stringToEOL"><![CDATA[(.+?)[\n\r]]]></search>
+        <search id="datePattern"><![CDATA[\d{2}\/\d{2}\/\d{4} \d{2}:\d{2}:\d{2} [AP]M]]></search>
+    </searches>
+    <values>
+        <!-- some fields that are reusing the patterns above -->
+        <value id="software"><![CDATA[Force10 Application Software Version: {stringToEOL}]]></value>
+        <value id="chassis"><![CDATA[Chassis Type: {text}]]></value>
+        <value id="model"><![CDATA[Chassis Type: {stringToEOL}]]></value>
+        <value id="imageFile"><![CDATA[System image file is "{string}"]]></value>
+    </values>
+</config>
