@@ -1,0 +1,69 @@
+<config>
+    <searches>
+
+        <!-- in this case, we have a CSV (space delimited file) so we define the line once, and then reuse it over
+        and again for each value -->
+        <search id="QUERY-LINE"><![CDATA[\s*{ipAddress}\s+{numbers}\s+{numbers}\s+{numbers}\s+{numbers}\s+{numbers}\s+{numbersThenText}]]></search>
+
+
+        <search id="inetInline"><![CDATA[{inet} {inet}]]></search>
+        <search id="inet4"><![CDATA[inet.0:\s*{inet}]]></search>
+        <search id="inet6"><![CDATA[inet6.0:\s*{inet}]]></search>
+        <search id="inet"><![CDATA[{numbers}/{numbers}/{numbers}]]></search>
+
+        <!-- Some rules for finding text, to make the values a little easier below -->
+        <search id="numbers"><![CDATA[(\d+)]]></search>
+        <search id="numbersThenText"><![CDATA[(\d+\S+)]]></search>
+        <search id="string"><![CDATA[(\S+?)]]></search>
+        <search id="ipAddress"><![CDATA[(\d+(\.\d+){3})]]></search>
+        <search id="EOL"><![CDATA[[\n\r]]]></search>
+    </searches>
+
+    <!-- the record starts with a line with an ip address and ends with either an inet6 line, or where the ids are at
+    the end of the line-->
+    <delim retain="true">{ipAddress}.*(\/\d+)\s*{EOL}</delim>
+    <delim>\s*({inet6})</delim>
+
+    <!--
+    This is the last line of the header
+     -->
+    <header-delim><![CDATA[Peer\s+AS\s+InPkt]]></header-delim>
+
+    <!--
+    Files look like this:
+
+    10.247.68.182         65550     131725   28179233       0      11     6w3d17h Establ
+      inet.0: 4/5/1
+      inet6.0: 0/0/0
+
+      or
+
+    192.0.2.100           65551    1269381    1363320       0       1      9w5d6h 2/3/0 0/0/0
+  -->
+    <values>
+        <!-- here we reuse the line pattern, only we pull out different group values -->
+        <value id="remoteIp" group="1"><![CDATA[{QUERY-LINE}]]></value>
+        <value id="uptime" group="8"><![CDATA[{QUERY-LINE}]]></value>
+
+        <!-- here we check for values in the inet* lines and use these -->
+        <value id="activeV4" group="1"><![CDATA[{inet4}]]></value>
+        <value id="receivedV4" group="2"><![CDATA[{inet4}]]></value>
+        <value id="accepted_V4" group="3"><![CDATA[{inet4}]]></value>
+
+        <value id="activeV6" group="1"><![CDATA[{inet6}]]></value>
+        <value id="receivedV6" group="2"><![CDATA[{inet6}]]></value>
+        <value id="accepted_V6" group="3"><![CDATA[{inet6}]]></value>
+
+        <!--
+        here we check for values at the end of the query line, and use these
+         NOTE: since we only set non-null values, these will not overwrite any values set above
+        -->
+        <value id="activeV4" group="9"><![CDATA[{QUERY-LINE}\s*{inetInline}]]></value>
+        <value id="receivedV4" group="10"><![CDATA[{QUERY-LINE}\s*{inetInline}]]></value>
+        <value id="accepted_V4" group="11"><![CDATA[{QUERY-LINE}\s*{inetInline}]]></value>
+        <value id="activeV6" group="12"><![CDATA[{QUERY-LINE}\s*{inetInline}]]></value>
+        <value id="receivedV6" group="13"><![CDATA[{QUERY-LINE}\s*{inetInline}]]></value>
+        <value id="accepted_V6" group="14"><![CDATA[{QUERY-LINE}\s*{inetInline}]]></value>
+
+    </values>
+</config>

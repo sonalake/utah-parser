@@ -1,0 +1,24 @@
+<!--
+See: juniper_version_example.txt
+-->
+<config>
+    <!-- There may be multiple records -->
+    <delim retain="true">JUNOS Routing Software Suite</delim>
+    <searches>
+        <!-- Some rules for finding text, to make the values a little easier below -->
+        <search id="textWrapped"><![CDATA[\[{text}\]]]></search>
+        <search id="text"><![CDATA[(\S+)]]></search>
+    </searches>
+    <values>
+        <!-- some fields that are reusing the patterns above -->
+        <value id="model"><![CDATA[Model: {text}]]></value>
+        <value id="junosOsBoot"><![CDATA[JUNOS Base OS boot {textWrapped}]]></value>
+        <value id="junosOsSoftware"><![CDATA[JUNOS Base OS Software Suite {textWrapped}]]></value>
+        <value id="junosKernelSoftware"><![CDATA[JUNOS Kernel Software Suite {textWrapped}]]></value>
+        <value id="junosCryptoSoftware"><![CDATA[JUNOS Crypto Software Suite {textWrapped}]]></value>
+        <value id="junosPacketForwardMTCommon"><![CDATA[JUNOS Packet Forwarding Engine Support \(M/T Common\) {textWrapped}]]></value>
+        <value id="junosPacketForwardMXCommon"><![CDATA[JUNOS Packet Forwarding Engine Support \(MX Common\) {textWrapped}]]></value>
+        <value id="junosOnlineDoc"><![CDATA[JUNOS Online Documentation {textWrapped}]]></value>
+        <value id="junosRoutingSoftware"><![CDATA[JUNOS Routing Software Suite {textWrapped}]]></value>
+    </values>
+</config>

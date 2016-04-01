@@ -1,0 +1,61 @@
+<!--
+BGP router identifier 192.0.2.1, local AS number 65551
+BGP table version is 173711, main routing table version 173711
+255 network entrie(s) using 43260 bytes of memory
+1114 paths using 75752 bytes of memory
+BGP-RIB over all using 76866 bytes of memory
+23 BGP path attribute entrie(s) using 1472 bytes of memory
+3 BGP AS-PATH entrie(s) using 137 bytes of memory
+10 BGP community entrie(s) using 498 bytes of memory
+2 BGP route-reflector cluster entrie(s) using 62 bytes of memory
+6 neighbor(s) using 28128 bytes of memory
+
+Neighbor        AS            MsgRcvd  MsgSent     TblVer  InQ  OutQ Up/Down  State/Pfx
+
+10.10.10.10     65551             647      397      73711    0   (0) 10:37:12         5
+10.10.100.1     65552             664      416      73711    0   (0) 10:38:27         0
+10.100.10.9     65553             709      526      73711    0   (0) 07:55:38         1
+
+-->
+<config>
+    <searches>
+
+        <!-- in this case, we have a CSV (space delimited file) so we define the line once, and then reuse it over
+        and again fr each value -->
+        <search id="QUERY-LINE"><![CDATA[{ipAddress}\s+{numbers}(\s+\S+){5}\s+({numbersThenText})\s+{status}]]></search>
+
+
+        <!-- Some rules for finding text, to make the values a little easier below -->
+        <search id="numbers"><![CDATA[(\d+)]]></search>
+        <search id="numbersThenText"><![CDATA[(\d+\S+)]]></search>
+        <search id="stringToEOL"><![CDATA[{string}{EOL}]]></search>
+        <search id="string"><![CDATA[(\S+?)]]></search>
+        <search id="ipAddress"><![CDATA[(\d+(\.\d+){3})]]></search>
+        <search id="status"><![CDATA[((\d+)|(\D.*))]]></search>
+        <search id="EOL"><![CDATA[[\n\r]]]></search>
+
+
+    </searches>
+    <!-- There is a record per line -->
+    <delim per-line="true" />
+
+    <!--
+    This is the last line of the header
+     -->
+    <header-delim><![CDATA[Neighbor\s+AS\s+MsgRcvd\s+MsgSent\s+TblVer\s+InQ\s+OutQ\s+Up/Down\s+State/Pfx]]></header-delim>
+    <!--
+    This scans the document up to and including the header delim, and then includes these into every record
+    These values are included in every record
+    -->
+    <header>
+        <value id="routerId"><![CDATA[BGP router identifier {string},]]></value>
+        <value id="localAS"><![CDATA[BGP router identifier \S*?, local AS number {numbers}]]></value>
+    </header>
+    <values>
+        <!-- here we reuse the line pattern, only we pull out different group values -->
+        <value id="remoteIp" group="1"><![CDATA[{QUERY-LINE}]]></value>
+        <value id="remoteAS" group="3"><![CDATA[{QUERY-LINE}]]></value>
+        <value id="uptime" group="5"><![CDATA[{QUERY-LINE}]]></value>
+        <value id="status" group="7"><![CDATA[{QUERY-LINE}]]></value>
+    </values>
+</config>
