@@ -75,22 +75,24 @@ Assuming the template above, the following file would result in two records.
 
 Then two extracted records are:
 
+**NOTE:** the application doesn't return a json doc, rather it returns an array of maps, this example is illustrative.
+
 ```json
 [
-	{
-		"numberField" : "123", 
-		"someOtherNumberField" : "456", 
-		"stringFieldA" : "what'll I do?", 
-		"stringFieldB" : "without you?", 
-		"startOfInterval" : "10/22/2015 12:00:00 AM",
-		"endOfInterval" : "12/31/2015 11:59:00 PM",
-	},
-	{
-		"numberField" : "987", 
-		"someOtherNumberField" : "654", 
-		"stringFieldA" : "some fields are missing!", 
-		"startOfInterval" : "10/22/2015 12:00:00 AM"
-	}
+  {
+    "numberField" : "123", 
+    "someOtherNumberField" : "456", 
+    "stringFieldA" : "what'll I do?", 
+    "stringFieldB" : "without you?", 
+    "startOfInterval" : "10/22/2015 12:00:00 AM",
+    "endOfInterval" : "12/31/2015 11:59:00 PM",
+  },
+  {
+    "numberField" : "987", 
+    "someOtherNumberField" : "654", 
+    "stringFieldA" : "some fields are missing!", 
+    "startOfInterval" : "10/22/2015 12:00:00 AM"
+  }
 ]
 ```
  
@@ -105,6 +107,37 @@ The records are a simple `List<Map<String, String>>` and fields with no value wi
 	10.10.10.10     65551             647      397      73711    0   (0) 10:37:12         5
 	10.10.100.1     65552             664      416      73711    0   (0) 10:38:27         0
 	10.100.10.9     65553             709      526      73711    0   (0) 07:55:38         1
+
+Where we want a result file like this:
+
+```json
+[
+  {
+    "localAS": "65551",
+    "remoteAS": "65551",
+    "remoteIp": "10.10.10.10",
+    "routerId": "192.0.2.1",
+    "status": "5",
+    "uptime": "10:37:12"
+  },
+  {
+    "localAS": "65551",
+    "remoteAS": "65552",
+    "remoteIp": "10.10.100.1",
+    "routerId": "192.0.2.1",
+    "status": "0",
+    "uptime": "10:38:27"
+  },
+  {
+    "localAS": "65551",
+    "remoteAS": "65553",
+    "remoteIp": "10.100.10.9",
+    "routerId": "192.0.2.1",
+    "status": "1",
+    "uptime": "07:55:38"
+  }
+]
+```
 
 ### Configure a record per line
 ```xml
@@ -159,6 +192,7 @@ Here, we define the `QUERY-LINE` search from the `numbersThenText` and `status` 
 
 This `QUERY-LINE` search has multiple groups, so the value that uses this search can select the `group` attribute. Groups are offset from 1, so the values of `remoteIp` comes from the first group, and the value of `uptime` comes from the fifth group.
 	
+	
 ## Example 3: File with multiple delimiters
 
 Suppose you have a file where there's a header with some values, followed by records that that can appear in different formats. For example a Juniper BGP summary file:
@@ -176,6 +210,43 @@ Peer                     AS      InPkt     OutPkt    OutQ   Flaps Last Up/Dwn St
   inet.0: 0/0/0
   inet6.0: 7/8/1
 192.0.2.100           65551    1269381    1363320       0       1      9w5d6h 1/2/3 4/5/6
+```
+
+Where we want a result file like this:
+
+```json
+[
+  {
+    "accepted_V4": "1",
+    "accepted_V6": "0",
+    "activeV4": "4",
+    "activeV6": "0",
+    "receivedV4": "5",
+    "receivedV6": "0",
+    "remoteIp": "10.247.68.182",
+    "uptime": "6w3d17h"
+  },
+  {
+    "accepted_V4": "0",
+    "accepted_V6": "1",
+    "activeV4": "0",
+    "activeV6": "7",
+    "receivedV4": "0",
+    "receivedV6": "8",
+    "remoteIp": "10.254.166.246",
+    "uptime": "6w5d6h"
+  },
+  {
+    "accepted_V4": "3",
+    "accepted_V6": "6",
+    "activeV4": "1",
+    "activeV6": "4",
+    "receivedV4": "2",
+    "receivedV6": "5",
+    "remoteIp": "192.0.2.100",
+    "uptime": "9w5d6h"
+  }
+]
 ```
 
 In this case:
@@ -232,10 +303,10 @@ We solve this by defining multiple values. The parser will apply them all, and t
 
 So here, we have the following *searches* of interest 
 
-* **inet**, that matches against three sets of digits (e.g 3/5/7)
-* **QUERY-LINE**, that matches against *peer* line (without the ending, so without *Establ* or the inet values
+* `inet`, that matches against three sets of digits (e.g 3/5/7)
+* `QUERY-LINE`, that matches against *peer* line (without the ending, so without *Establ* or the inet values
 
-And then we have to *values* for **activeV6**
+And then we have two *values* for `activeV6`
 
 One that matches against the line with inet6.0, and so would match this record
 
@@ -266,6 +337,35 @@ By default the parser assumes the delimiter is at the end of a record, in some c
 		ether 90:84:0d:f6:d1:55
 		media: <unknown subtype> (<unknown type>)
 		status: inactive
+		
+Where we want a result file like this:
+```json
+[
+  {
+    "inet4": "127.0.0.1",
+    "inet6": "::1",
+    "interface": "lo0",
+    "mtu": "16384",
+    "netmask": "0xff000000",
+    "prefixlen": "128"
+  },
+  {
+    "ether": "34:15:9e:27:45:e3",
+    "inet4": "192.0.2.215",
+    "inet6": "2001:db8::3615:9eff:fe27:45e3",
+    "interface": "en0",
+    "mtu": "1500",
+    "netmask": "0xfffffe00",
+    "prefixlen": "64"
+  },
+  {
+    "ether": "90:84:0d:f6:d1:55",
+    "interface": "en1",
+    "mtu": "1500"
+  }
+]
+```
+
 		
 Now, in this case, we have a set of three *interfaces*, but the delimiter is at the start of the record.
 
@@ -311,7 +411,8 @@ try (Reader in = new InputStreamReader(Thread.currentThread().getContextClassLoa
 This will run the unit tests, which are broken down into two parts:
 
 - `com.sonalake.utah.config.*` - these are the basic unit tests for the class
-- `com.sonalake.utah.ExamplesTest` - this processes the sample example files and template configurations that can be found in `utah-parser/src/test/resources/examples`.
+- `com.sonalake.utah.ExamplesTest` - this processes the sample example files and template configurations that can be found in `utah-parser/src/test/resources/examples`. 
+These are the same files that are included in the root examples directory. 
 
 
 # Why Utah?
