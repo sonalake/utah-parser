@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.sonalake</groupId>
     <artifactId>utah-parser</artifactId>
-    <version>1.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>Utah Parser</name>
     <description>A Java library for parsing semi-structured text files</description>
     <url>https://github.com/sonalake/utah-parser</url>
