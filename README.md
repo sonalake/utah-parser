@@ -414,6 +414,13 @@ This will run the unit tests, which are broken down into two parts:
 - `com.sonalake.utah.ExamplesTest` - this processes the sample example files and template configurations that can be found in `utah-parser/src/test/resources/examples`. 
 These are the same files that are included in the root examples directory. 
 
+## GPG signing
+
+The `install` step performs a GPG signing of the jars, if you don't have any keys for this, for local development,
+you can skip this step by using
+
+    mvn clean install -DskipGpgSign=true
+
 # License
 Code is under the [Apache Licence v2](https://www.apache.org/licenses/LICENSE-2.0.txt).
 

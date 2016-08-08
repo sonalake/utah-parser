@@ -12,6 +12,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Allow for a dev user to skip the signing part by setting this to true-->
+        <skipGpgSign>false</skipGpgSign>
     </properties>
 
     <licenses>
@@ -69,6 +71,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>1.5</version>
+                <configuration>
+                    <skip>${skipGpgSign}</skip>
+                </configuration>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
