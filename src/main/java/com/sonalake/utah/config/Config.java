@@ -186,7 +186,7 @@ public class Config {
   @Override
   public String toString() {
     return String.format(
-      "Config: delim [%s], searches: [%s], values: [%s]",
+      "CLIConfig: delim [%s], searches: [%s], values: [%s]",
       delimiters, searches, values
     );
   }
