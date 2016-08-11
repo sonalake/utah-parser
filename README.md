@@ -414,10 +414,57 @@ This will run the unit tests, which are broken down into two parts:
 - `com.sonalake.utah.ExamplesTest` - this processes the sample example files and template configurations that can be found in `utah-parser/src/test/resources/examples`. 
 These are the same files that are included in the root examples directory. 
 
+## Building a CLI version of the jar
+There is a CLI version of the jar, that can be created by using the `cli` target
+
+    mvn clean install -Pcli
+
+
+This will generate a fat jar that you can use to process files on the commandline of `target/utah-parser-cli-$VERSION.jar`
+
+This program will take a feed from <STDIN> and process file using the identified template.
+
+There is a help command `--help`
+
+    java -jar target/utah-parser-cli-1.0.1.jar --help
+      usage: utah -f <arg> [-o <arg>]
+       -f <arg>   The config file
+       -o <arg>   The output format, must be one of: csv, json
+
+By default the output format is `csv`
+
+    cat examples/cisco_bgp_summary_example.txt | java -jar target/utah-parser-cli-1.0.1.jar -f examples/cisco_bgp_summary_template.xml
+    localAS,remoteAS,remoteIp,routerId,status,uptime
+    65550,65551,192.0.2.77,192.0.2.70,1,5w4d
+    65550,65552,192.0.2.78,192.0.2.70,10,5w4d
+
+But you can also write out the records in `json` format
+
+    cat examples/cisco_bgp_summary_example.txt | java -jar target/utah-parser-cli-1.0.1.jar -f examples/cisco_bgp_summary_template.xml -o json
+
+    [
+      {
+        "localAS": "65550",
+        "remoteAS": "65551",
+        "remoteIp": "192.0.2.77",
+        "routerId": "192.0.2.70",
+        "status": "1",
+        "uptime": "5w4d"
+      },
+      {
+        "localAS": "65550",
+        "remoteAS": "65552",
+        "remoteIp": "192.0.2.78",
+        "routerId": "192.0.2.70",
+        "status": "10",
+        "uptime": "5w4d"
+      }
+    ]
+
 ## GPG signing
 
 The `install` step performs a GPG signing of the jars, if you don't have any keys for this, for local development,
-you can skip this step by using
+you can skip this step
 
     mvn clean install -DskipGpgSign=true
 
