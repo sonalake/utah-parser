@@ -81,7 +81,7 @@ public class Config {
    * Build a record from the header text
    *
    * @param headerText the header text
-   * @return a map of field name-> value
+   * @return a map of field name-&gt; value
    */
   public Map<String, String> buildHeader(String headerText) {
     return buildMap(headers, headerText);
@@ -91,7 +91,7 @@ public class Config {
    * Build a record from the record text
    *
    * @param recordText the record text
-   * @return a map of field name-> value
+   * @return a map of field name-&gt; value
    */
   public Map<String, String> buildRecord(String recordText) {
     return buildMap(values, recordText);
@@ -101,7 +101,7 @@ public class Config {
    * Build a map of name/values from the record text
    *
    * @param text The candidate text for parsing
-   * @return the map of fields -> names
+   * @return the map of fields -&gt; names
    */
   private Map<String, String> buildMap(List<ValueRegex> values, String text) {
     if (null != values) {
