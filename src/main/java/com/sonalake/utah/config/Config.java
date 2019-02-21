@@ -50,6 +50,13 @@ public class Config {
   protected List<ValueRegex> values;
 
   /**
+   * Lines to be ignored
+   */
+  @XmlElement(name = "ignore")
+  protected List<Ignorer> ignores;
+
+
+  /**
    * Precompile the patterns, but only do it the once.
    */
   void compilePatterns() {
@@ -61,6 +68,12 @@ public class Config {
     }
     for (Delimiter delimiter : delimiters) {
       delimiter.compile(searches);
+    }
+
+    if (null != ignores) {
+      for (Ignorer ignorer : ignores) {
+        ignorer.compile(searches);
+      }    
     }
   }
 
@@ -148,6 +161,24 @@ public class Config {
     }
     return true;
   }
+
+  /**
+   * Validates if the line should be ignored
+   *
+   * @return true if the line is ignored during the record build
+   */
+  public boolean isIgnorable(String candidate) {
+    if (null == candidate || null == ignores || ignores.isEmpty()) {
+      return false;
+    } else {
+      for (Ignorer ignorer : ignores) {
+        if (ignorer.matches(candidate)) {
+          return true;
+        }        
+      }
+    }
+    return false;
+  }  
 
   /**
    * Get the applicable delimiter for the candidate. The first delimiter that matches the  text as used.

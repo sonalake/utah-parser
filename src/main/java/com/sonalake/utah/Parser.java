@@ -93,34 +93,40 @@ public class Parser {
       boolean wasDelimMatched = false;
       while (!isRecordLoaded) {
         String currentLine = reader.readLine();
-        if (null == currentLine) {
-          isReaderFinished = true;
-          isRecordLoaded = true;
+        boolean shouldIgnoreLine = config.isIgnorable(currentLine);
+
+        if (shouldIgnoreLine) {
+          continue;
         } else {
-          if (StringUtils.isNotBlank(previousDelim)) {
-            buffer.append(previousDelim + "\n");
-            previousDelim = "";
-          }
-          if (isSelectingHeader && config.matchesHeaderDelim(currentLine)) {
+          if (null == currentLine) {
+            isReaderFinished = true;
             isRecordLoaded = true;
-          } else if (!isSelectingHeader && config.matchesRecordDelim(currentLine)) {
-            Delimiter applicableDelim = config.getApplicableDelim(currentLine);
-            // if the delimiter says we're at the start of the record,
-            // and this is the first record, we need to treat it differently
-            boolean isFirstDelimOfInterest = 0 == recordNumber && !wasDelimMatched;
-            if (applicableDelim.isDelimAtStartOfRecord() && isFirstDelimOfInterest) {
-              // this is the first record, so we don't stop here
-              wasDelimMatched = true;
-            } else {
-              if (applicableDelim.isRetainDelim()) {
-                previousDelim = currentLine;
-              }
+          } else {
+            if (StringUtils.isNotBlank(previousDelim)) {
+              buffer.append(previousDelim + "\n");
+              previousDelim = "";
+            }
+            if (isSelectingHeader && config.matchesHeaderDelim(currentLine)) {
               isRecordLoaded = true;
+            } else if (!isSelectingHeader && config.matchesRecordDelim(currentLine)) {
+              Delimiter applicableDelim = config.getApplicableDelim(currentLine);
+              // if the delimiter says we're at the start of the record,
+              // and this is the first record, we need to treat it differently
+              boolean isFirstDelimOfInterest = 0 == recordNumber && !wasDelimMatched;
+              if (applicableDelim.isDelimAtStartOfRecord() && isFirstDelimOfInterest) {
+                // this is the first record, so we don't stop here
+                wasDelimMatched = true;
+              } else {
+                if (applicableDelim.isRetainDelim()) {
+                  previousDelim = currentLine;
+                }
+                isRecordLoaded = true;
+              }
             }
           }
-        }
-        if (StringUtils.isNotBlank(currentLine)) {
-          buffer.append(currentLine + "\n");
+          if (StringUtils.isNotBlank(currentLine)) {
+            buffer.append(currentLine + "\n");
+          }
         }
       }
       if (isReaderFinished && buffer.length() == 0) {
