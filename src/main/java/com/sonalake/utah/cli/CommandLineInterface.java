@@ -9,7 +9,6 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.xml.bind.JAXBException;
 import java.io.*;
 import java.util.*;
 
@@ -118,7 +117,7 @@ public class CommandLineInterface {
         return jsonOutput;
     }
 
-    Parser parseInput(CLIConfig cliConfig, BufferedReader reader) throws FileNotFoundException, JAXBException {
+    Parser parseInput(CLIConfig cliConfig, BufferedReader reader) throws FileNotFoundException {
         Config parserConfig = cliConfig.loadConfig();
         Parser results = Parser.parse(parserConfig, reader);
         return results;

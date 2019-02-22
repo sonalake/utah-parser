@@ -7,7 +7,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import javax.xml.bind.JAXBException;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
@@ -15,6 +14,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -44,7 +44,7 @@ public class ConfigTests {
    * If the config has no delimiter, then fail out
    */
   @Test(expected = IllegalArgumentException.class)
-  public void testConfigHasNoDelimiter() throws TransformerException, JAXBException {
+  public void testConfigHasNoDelimiter() throws TransformerException, IOException {
     createEmptyDocument();
     new ConfigLoader().loadConfig(buildDocReader());
   }
@@ -53,7 +53,7 @@ public class ConfigTests {
    * If the config has values with no groups, then fail out
    */
   @Test(expected = IllegalArgumentException.class)
-  public void testConfigMappingHasNoGroup() throws TransformerException, JAXBException {
+  public void testConfigMappingHasNoGroup() throws TransformerException, IOException {
     createEmptyDocument();
     addDelimiter("DELIM");
     addSearch("number", "\\d*");
@@ -66,7 +66,7 @@ public class ConfigTests {
    * If the config has values with no groups, then fail out
    */
   @Test(expected = IllegalArgumentException.class)
-  public void testConfigMappingWhenInvalidRegex() throws TransformerException, JAXBException {
+  public void testConfigMappingWhenInvalidRegex() throws TransformerException, IOException {
     createEmptyDocument();
     addDelimiter("DELIM");
     addSearch("number", "(\\d*)");
@@ -78,7 +78,7 @@ public class ConfigTests {
    * Create a valid document that can handle values and then confirm it with parsing
    */
   @Test
-  public void testValidValueConfigOk() throws TransformerException, JAXBException {
+  public void testValidValueConfigOk() throws TransformerException, IOException {
     createEmptyDocument();
     addDelimiter("DELIM");
     addSearch("number", "(\\d*)");
@@ -93,7 +93,7 @@ public class ConfigTests {
    * Create a valid document that can handle values and then confirm it with parsing
    */
   @Test
-  public void testValidHeaderValueConfigOk() throws TransformerException, JAXBException {
+  public void testValidHeaderValueConfigOk() throws TransformerException, IOException {
     createEmptyDocument();
     addDelimiter("DELIM");
     addSearch("number", "(\\d*)");
@@ -108,7 +108,7 @@ public class ConfigTests {
    * Create a valid document that can handle values and then confirm it with parsing
    */
   @Test
-  public void testHeaderDelimiterValueConfigOk() throws TransformerException, JAXBException {
+  public void testHeaderDelimiterValueConfigOk() throws TransformerException, IOException {
     createEmptyDocument();
     addDelimiter("DELIM");
     addHeaderDelimiter("HEADER-DELIM");
@@ -119,7 +119,7 @@ public class ConfigTests {
   }
 
   @Test
-  public void testPerLine() throws TransformerException, JAXBException {
+  public void testPerLine() throws TransformerException, IOException {
     createEmptyDocument();
     addPerLineDelimiter();
     Config config = new ConfigLoader().loadConfig(buildDocReader());
@@ -132,7 +132,7 @@ public class ConfigTests {
   }
 
   @Test
-  public void testRetainDelim() throws TransformerException, JAXBException {
+  public void testRetainDelim() throws TransformerException, IOException {
     createEmptyDocument();
     Element delimiterNode = addDelimiter("a line");
     delimiterNode.setAttribute("retain", "true");
@@ -145,7 +145,7 @@ public class ConfigTests {
   }
 
   @Test
-  public void testDelimAtStart() throws TransformerException, JAXBException {
+  public void testDelimAtStart() throws TransformerException, IOException {
     createEmptyDocument();
     Element delimiterNode = addDelimiter("a line");
     delimiterNode.setAttribute("at-start", "true");
@@ -166,7 +166,7 @@ public class ConfigTests {
    * Create a valid document that can handle headers and then confirm it with parsing
    */
   @Test
-  public void testValidHeaderConfigOk() throws TransformerException, JAXBException {
+  public void testValidHeaderConfigOk() throws TransformerException, IOException {
     createEmptyDocument();
     addDelimiter("DELIM");
     addSearch("number", "(\\d*)");
