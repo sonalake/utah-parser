@@ -18,7 +18,7 @@ public class ConfigLoader {
    *
    * @param url the location of the config
    * @return the populated config
-   * @throws IOException
+   * @throws IOException should the file fail to load or be parseable
    */
   public Config loadConfig(URL url) throws IOException {
     try (Reader reader = new InputStreamReader(url.openStream())) {
@@ -31,11 +31,11 @@ public class ConfigLoader {
    *
    * @param reader the source of the config
    * @return the populated config
-   * @throws IOException
+   * @throws IOException should the file fail to load or be parseable
    */
   public Config loadConfig(Reader reader) throws IOException {
-      Config config = buildReader().readValue(reader, Config.class);;
-      validate(config);
+    Config config = buildReader().readValue(reader, Config.class);;
+    validate(config);
     return config;
   }
 
