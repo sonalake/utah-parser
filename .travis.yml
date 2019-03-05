@@ -6,9 +6,9 @@ install: true
 script: mvn  --settings .travis/settings.xml deploy
 before_install:
 - openssl aes-256-cbc -K $encrypted_426140d7796a_key -iv $encrypted_426140d7796a_iv
-  -in pubring.gpg.enc -out pubring.gpg -d
+  -in .travis/pubring.gpg.enc -out .travis/pubring.gpg -d
 - openssl aes-256-cbc -K $encrypted_426140d7796a_key -iv $encrypted_426140d7796a_iv
-  -in secring.gpg.enc -out secring.gpg -d
+  -in .travis/secring.gpg.enc -out .travis/secring.gpg -d
 after_success:
 - mvn --settings .travis/settings.xml clean test jacoco:report coveralls:report
 notifications:
