@@ -9,9 +9,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
-import org.mockito.Mockito;
 
-import javax.xml.bind.JAXBException;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -191,10 +189,9 @@ public class CommandLineInterfaceTest {
      * The real parsing is tested elsewhere, here we just test for the flow through the CLI
      * @throws ParseException
      * @throws FileNotFoundException
-     * @throws JAXBException
      */
     @Test
-    public void testBranchingForCsv() throws ParseException, FileNotFoundException, JAXBException {
+    public void testBranchingForCsv() throws ParseException, IOException {
         CLIConfig.Format format  = CLIConfig.Format.CSV;
 
         OutputHelper helper = processMockOutput(format);
@@ -204,7 +201,7 @@ public class CommandLineInterfaceTest {
     }
 
     @Test
-    public void testBranchingForWrongFormat() throws ParseException, FileNotFoundException, JAXBException {
+    public void testBranchingForWrongFormat() throws ParseException, IOException {
         CLIConfig.Format format  = CLIConfig.Format.CSV;
 
         OutputHelper helper = processMockOutput(format);
@@ -217,10 +214,9 @@ public class CommandLineInterfaceTest {
      * The real parsing is tested elsewhere, here we just test for the flow through the CLI
      * @throws ParseException
      * @throws FileNotFoundException
-     * @throws JAXBException
      */
     @Test
-    public void testBranchingForJson() throws ParseException, FileNotFoundException, JAXBException {
+    public void testBranchingForJson() throws ParseException, IOException {
         CLIConfig.Format format = CLIConfig.Format.JSON;
 
         OutputHelper helper = processMockOutput(format);
@@ -235,9 +231,8 @@ public class CommandLineInterfaceTest {
      * @return
      * @throws ParseException
      * @throws FileNotFoundException
-     * @throws JAXBException
      */
-    private OutputHelper processMockOutput(CLIConfig.Format format) throws ParseException, FileNotFoundException, JAXBException {
+    private OutputHelper processMockOutput(CLIConfig.Format format) throws ParseException, IOException {
         CommandLineInterface iface = spy(new CommandLineInterface());
         doReturn(new CLIConfig(format, null)).when(iface).parse(any(String[].class));
 

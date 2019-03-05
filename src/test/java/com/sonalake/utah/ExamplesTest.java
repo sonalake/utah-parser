@@ -5,7 +5,6 @@ import com.sonalake.utah.config.ConfigLoader;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -25,10 +24,10 @@ public class ExamplesTest {
    * data records are as expected.
    *
    * @throws IOException
-   * @throws JAXBException
+   * 
    */
   @Test
-  public void testSampleFile() throws IOException, JAXBException {
+  public void testSampleFile() throws IOException, IOException {
     String configResource = "sample.config.xml";
     String fileResource = "sample.import.txt";
 
@@ -58,10 +57,10 @@ public class ExamplesTest {
    * data records are as expected.
    *
    * @throws IOException
-   * @throws JAXBException
+   * 
    */
   @Test
-  public void testExampleCiscoVersion() throws IOException, JAXBException {
+  public void testExampleCiscoVersion() throws IOException, IOException {
     String configResource = "examples/cisco_version_template.xml";
     String fileResource = "examples/cisco_version_example.txt";
 
@@ -88,10 +87,10 @@ public class ExamplesTest {
    * data records are as expected.
    *
    * @throws IOException
-   * @throws JAXBException
+   * 
    */
   @Test
-  public void testExampleCiscoBgpSurvey() throws IOException, JAXBException {
+  public void testExampleCiscoBgpSurvey() throws IOException, IOException {
     String configResource = "examples/cisco_bgp_summary_template.xml";
     String fileResource = "examples/cisco_bgp_summary_example.txt";
 
@@ -126,10 +125,10 @@ public class ExamplesTest {
    * data records are as expected.
    *
    * @throws IOException
-   * @throws JAXBException
+   * 
    */
   @Test
-  public void testExampleF10IPBgpSurvey() throws IOException, JAXBException {
+  public void testExampleF10IPBgpSurvey() throws IOException, IOException {
     String configResource = "examples/f10_ip_bgp_summary_template.xml";
     String fileResource = "examples/f10_ip_bgp_summary_example.txt";
 
@@ -170,10 +169,10 @@ public class ExamplesTest {
    * data records are as expected.
    *
    * @throws IOException
-   * @throws JAXBException
+   * 
    */
   @Test
-  public void testExampleF10Version() throws IOException, JAXBException {
+  public void testExampleF10Version() throws IOException, IOException {
     String configResource = "examples/f10_version_template.xml";
     String fileResource = "examples/f10_version_example.txt";
 
@@ -196,10 +195,10 @@ public class ExamplesTest {
    * data records are as expected.
    *
    * @throws IOException
-   * @throws JAXBException
+   * 
    */
   @Test
-  public void testJuniperBgpVersion() throws IOException, JAXBException {
+  public void testJuniperBgpVersion() throws IOException, IOException {
     String configResource = "examples/juniper_bgp_summary_template.xml";
     String fileResource = "examples/juniper_bgp_summary_example.txt";
 
@@ -260,10 +259,10 @@ public class ExamplesTest {
    * data records are as expected.
    *
    * @throws IOException
-   * @throws JAXBException
+   * 
    */
   @Test
-  public void testExampleJuniperVersion() throws IOException, JAXBException {
+  public void testExampleJuniperVersion() throws IOException, IOException {
     String configResource = "examples/juniper_version_template.xml";
     String fileResource = "examples/juniper_version_example.txt";
 
@@ -290,10 +289,10 @@ public class ExamplesTest {
    * data records are as expected.
    *
    * @throws IOException
-   * @throws JAXBException
+   * 
    */
   @Test
-  public void testExampleIfcfg() throws IOException, JAXBException {
+  public void testExampleIfcfg() throws IOException, IOException {
     String configResource = "examples/unix_ifcfg_template.xml";
     String fileResource = "examples/unix_ifcfg_example.txt";
 
@@ -354,11 +353,11 @@ public class ExamplesTest {
    * @param configResource  the resource name for a config
    * @param fileResource    the resource name for a file that is expected to match the config
    * @param expectedResults the json results expected from the processing
-   * @throws JAXBException
+   * 
    * @throws IOException
    */
   private void testFileProcessing(String configResource, String fileResource, List<Map<String, String>>
-    expectedResults) throws JAXBException, IOException {
+    expectedResults) throws IOException, IOException {
     // load the config
     URL configURL = Thread.currentThread().getContextClassLoader().getResource(configResource);
     Config config = new ConfigLoader().loadConfig(configURL);

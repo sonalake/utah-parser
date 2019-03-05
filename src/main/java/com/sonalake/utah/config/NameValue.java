@@ -1,26 +1,22 @@
 package com.sonalake.utah.config;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlValue;
-
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 /**
  * A config for a name/value pair
  */
-@XmlAccessorType(XmlAccessType.FIELD)
 public class NameValue {
 
   /**
    * The name of the id
    */
-  @XmlAttribute
+  @JacksonXmlProperty(isAttribute = true, localName = "id")
   private String id;
 
   /**
    * The value of the mapping
    */
-  @XmlValue
+  @JacksonXmlText
   private String value;
 
   public String getId() {

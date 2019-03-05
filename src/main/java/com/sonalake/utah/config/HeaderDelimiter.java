@@ -1,6 +1,7 @@
 package com.sonalake.utah.config;
 
-import javax.xml.bind.annotation.XmlValue;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
+
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -10,29 +11,29 @@ import java.util.regex.Pattern;
  */
 public class HeaderDelimiter {
 
-  /**
-   * Raw delimiter string from the config file
-   */
-  @XmlValue
-  protected String delimiter;
+    /**
+     * Raw delimiter string from the config file
+     */
+    @JacksonXmlText
+    protected String delimiter;
 
-  /**
-   * The compiled pattern, this is the one used at runtime
-   */
-  private Pattern compiledPattern;
+    /**
+     * The compiled pattern, this is the one used at runtime
+     */
+    private Pattern compiledPattern;
 
-  public boolean matches(String candidate) {
-    return compiledPattern.matcher(candidate).matches();
-  }
+    public boolean matches(String candidate) {
+        return compiledPattern.matcher(candidate).matches();
+    }
 
-  /**
-   * Compile the delimiter based on the searches
-   *
-   * @param searches the searches, processed in this order
-   */
-  void compile(List<NameValue> searches) {
-    String valueText = SearchHelper.translate(delimiter, searches);
-    compiledPattern = Pattern.compile(".*?" + valueText + ".*?");
-  }
+    /**
+     * Compile the delimiter based on the searches
+     *
+     * @param searches the searches, processed in this order
+     */
+    void compile(List<NameValue> searches) {
+        String valueText = SearchHelper.translate(delimiter, searches);
+        compiledPattern = Pattern.compile(".*?" + valueText + ".*?");
+    }
 
 }

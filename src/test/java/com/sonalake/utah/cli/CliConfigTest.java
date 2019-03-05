@@ -5,7 +5,6 @@ import com.sonalake.utah.config.Config;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
-import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
@@ -21,7 +20,7 @@ import static org.junit.Assert.assertNotNull;
 public class CliConfigTest {
 
     @Test
-    public void testLoadWorks() throws JAXBException, IOException {
+    public void testLoadWorks() throws IOException, IOException {
 
         File testFile = getConfigFileForCiscoBGPSummary();
 
@@ -39,13 +38,13 @@ public class CliConfigTest {
 
 
     @Test(expected = FileNotFoundException.class)
-    public void testLoadHandlesErrors() throws JAXBException, FileNotFoundException {
+    public void testLoadHandlesErrors() throws IOException {
         CLIConfig cliConfig = new CLIConfig(CLIConfig.Format.CSV, UUID.randomUUID().toString());
         cliConfig.loadConfig();
     }
 
     @Test
-    public void testParser() throws JAXBException, IOException {
+    public void testParser() throws IOException {
         File testFile = getConfigFileForCiscoBGPSummary();
 
         CLIConfig cliConfig = new CLIConfig(CLIConfig.Format.CSV, testFile.getAbsolutePath());
