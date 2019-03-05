@@ -7,7 +7,7 @@ script: mvn  --settings .travis/settings.xml deploy
 before_install:
   # can only encrypt one file at a time - https://docs.travis-ci.com/user/encrypting-files#Encrypting-multiple-files
 - openssl aes-256-cbc -K $encrypted_426140d7796a_key -iv $encrypted_426140d7796a_iv -in .travis/gpg-rings.tgz.enc -out .travis/gpg-rings.tgz -d
-# now, untar the public/private rings where settings can see them
+  # now, untar the public/private rings where settings can see them
 - tar -xf .travis/gpg-rings.tgz -C .travis/
 
 after_success:
