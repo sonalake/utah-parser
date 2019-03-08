@@ -11,8 +11,8 @@ before_install:
   - 'if [ "$SIGN_JARS" = "true" ]; then tar -xf .travis/gpg-rings.tgz -C .travis/; fi'
 
 script:
-  - 'if [ "$SIGN_JARS" = "true" ]; then mvn  --settings .travis/settings.xml deploy -DskipGpgSign; fi'
-  - 'if [ "$SIGN_JARS" != "true" ]; then mvn  --settings .travis/settings.xml deploy; fi'
+  - 'if [ "$SIGN_JARS" != "true" ]; then mvn  --settings .travis/settings.xml deploy -DskipGpgSign; fi'
+  - 'if [ "$SIGN_JARS" = "true" ]; then mvn  --settings .travis/settings.xml deploy; fi'
 
 
 after_success:
