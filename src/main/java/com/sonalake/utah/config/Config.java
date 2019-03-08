@@ -1,12 +1,12 @@
 package com.sonalake.utah.config;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -16,37 +16,35 @@ import java.util.regex.Matcher;
 /**
  * Defines the configuration of the plain text parser
  */
-@XmlRootElement(name = "config")
-@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "config")
 public class Config {
   /**
    * Each record must be delimited by at least one regex
    */
-  @XmlElement(name = "delim")
+  @JacksonXmlElementWrapper(useWrapping = false)
+  @JacksonXmlProperty(localName = "delim")
   protected List<Delimiter> delimiters;
 
   /**
    * The list of searches that are to be used by  values section to find values using a regex
    */
-  @XmlElementWrapper(name = "searches")
-  @XmlElement(name = "search")
+  @JacksonXmlElementWrapper(localName = "searches")
+  @JacksonXmlProperty(localName = "search")
   protected List<NameValue> searches;
 
-  @XmlElement(name = "header-delim")
+  @JacksonXmlProperty(localName = "header-delim")
   protected HeaderDelimiter headerDelimiter;
 
   /**
    * The list of values in the document header
    */
-  @XmlElementWrapper(name = "header")
-  @XmlElement(name = "value")
+  @JacksonXmlProperty(localName = "header")
   protected List<ValueRegex> headers;
 
   /**
    * The list of values in the document
    */
-  @XmlElementWrapper(name = "values")
-  @XmlElement(name = "value")
+  @JacksonXmlProperty(localName = "values")
   protected List<ValueRegex> values;
 
   /**

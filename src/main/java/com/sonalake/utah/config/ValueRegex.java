@@ -1,6 +1,7 @@
 package com.sonalake.utah.config;
 
-import javax.xml.bind.annotation.XmlAttribute;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,7 +17,7 @@ public class ValueRegex extends NameValue {
   /**
    * This is the group that will be used when pulling values out of the test string.
    */
-  @XmlAttribute
+  @JacksonXmlProperty(isAttribute = true, localName = "group")
   int group;
 
   /**

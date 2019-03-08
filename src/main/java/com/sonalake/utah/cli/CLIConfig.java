@@ -2,11 +2,7 @@ package com.sonalake.utah.cli;
 
 import com.sonalake.utah.config.Config;
 import com.sonalake.utah.config.ConfigLoader;
-import javax.xml.bind.JAXBException;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 
 public class CLIConfig {
     public CLIConfig(Format format, String pathToConfig) {
@@ -14,15 +10,15 @@ public class CLIConfig {
         this.pathToConfig = pathToConfig;
     }
 
-    public Config loadConfig() throws FileNotFoundException, JAXBException {
+    public Config loadConfig() throws FileNotFoundException {
         try {
             Reader reader = new InputStreamReader(new FileInputStream(this.pathToConfig));
             return new ConfigLoader().loadConfig(reader);
         } catch(FileNotFoundException e) {
             throw new FileNotFoundException("File not found");
-        } catch(JAXBException e) {
+        } catch (IOException e) {
+            throw new AssertionError("Can't parse config file", e);
         }
-        return null;
     }
 
     enum Format {CSV, JSON};

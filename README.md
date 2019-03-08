@@ -420,27 +420,27 @@ There is a CLI version of the jar, that can be created by using the `cli` target
     mvn clean install -Pcli
 
 
-This will generate a fat jar that you can use to process files on the commandline of `target/utah-parser-cli-$VERSION.jar`
+This will generate a fat jar that you can use to process files on the commandline of `target/utah-parser-cli.jar`
 
 This program will take a feed from <STDIN> and process file using the identified template.
 
 There is a help command `--help`
 
-    java -jar target/utah-parser-cli-1.0.1.jar --help
+    java -jar target/utah-parser-cli.jar --help
       usage: utah -f <arg> [-o <arg>]
        -f <arg>   The config file
        -o <arg>   The output format, must be one of: csv, json
 
 By default the output format is `csv`
 
-    cat examples/cisco_bgp_summary_example.txt | java -jar target/utah-parser-cli-1.0.1.jar -f examples/cisco_bgp_summary_template.xml
+    cat examples/cisco_bgp_summary_example.txt | java -jar target/utah-parser-cli.jar -f examples/cisco_bgp_summary_template.xml
     localAS,remoteAS,remoteIp,routerId,status,uptime
     65550,65551,192.0.2.77,192.0.2.70,1,5w4d
     65550,65552,192.0.2.78,192.0.2.70,10,5w4d
 
 But you can also write out the records in `json` format
 
-    cat examples/cisco_bgp_summary_example.txt | java -jar target/utah-parser-cli-1.0.1.jar -f examples/cisco_bgp_summary_template.xml -o json
+    cat examples/cisco_bgp_summary_example.txt | java -jar target/utah-parser-cli.jar -f examples/cisco_bgp_summary_template.xml -o json
 
     [
       {

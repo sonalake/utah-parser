@@ -1,9 +1,9 @@
 package com.sonalake.utah.config;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlValue;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -15,31 +15,31 @@ public class Delimiter {
   /**
    * If true, then the entire file is considered to be one record
    */
-  @XmlAttribute(name = "one-record")
+  @JacksonXmlProperty(isAttribute = true, localName = "one-record")
   boolean isOneRecord;
 
   /**
    * If true, then the records are split per line
    */
-  @XmlAttribute(name = "per-line")
+  @JacksonXmlProperty(isAttribute = true, localName = "per-line")
   boolean isPerLine;
 
   /**
    * If true, then the delimiter is considered part of the record
    */
-  @XmlAttribute(name = "retain")
+  @JacksonXmlProperty(isAttribute = true, localName = "retain")
   boolean isRetainDelim;
 
   /**
    * If true, then the delimiter is at the start of the record (by default, it's at the end)
    */
-  @XmlAttribute(name = "at-start")
+  @JacksonXmlProperty(isAttribute = true, localName = "at-start")
   boolean isDelimAtStartOfRecord;
 
   /**
    * The text value of the delimiter
    */
-  @XmlValue
+  @JacksonXmlText
   String delimiter;
 
   /**
