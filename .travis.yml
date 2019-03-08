@@ -9,9 +9,13 @@ before_install:
   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then tar -xf .travis/gpg-rings.tgz -C .travis/; fi'
 
 script:
+  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then DO_GPG="-DskipGpgSign" fi'
   - echo $TRAVIS_PULL_REQUEST
-  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then mvn  --settings .travis/settings.xml deploy; fi'
-  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then mvn  --settings .travis/settings.xml deploy -DskipGpgSign=true; fi'
+  - echo $TRAVIS_PULL_REQUEST_BRANCH
+  - echo $TRAVIS_PULL_REQUEST_SHA
+  - echo $TRAVIS_PULL_REQUEST_SLUG
+  - echo $DO_GPG
+  - mvn  --settings .travis/settings.xml deploy $DO_GPG
 
 after_success:
   - mvn --settings .travis/settings.xml clean test jacoco:report coveralls:report
