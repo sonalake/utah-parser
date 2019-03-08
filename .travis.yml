@@ -5,7 +5,7 @@ jdk:
 install: true
 
 before_install:
-  - 'if [ -z "$encrypted_426140d7796a_key" ]; then SIGN_JARS="true"; fi'
+  - 'if [[ ! -z "$encrypted_426140d7796a_key" ]]; then SIGN_JARS="true";  fi'
   - echo $SIGN_JARS
   - 'if [ "$SIGN_JARS" = "true" ]; then openssl aes-256-cbc -K $encrypted_426140d7796a_key -iv $encrypted_426140d7796a_iv -in .travis/gpg-rings.tgz.enc -out .travis/gpg-rings.tgz -d; fi'
   - 'if [ "$SIGN_JARS" = "true" ]; then tar -xf .travis/gpg-rings.tgz -C .travis/; fi'
