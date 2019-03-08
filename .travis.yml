@@ -4,12 +4,11 @@ jdk:
   - openjdk11
 install: true
 script:
+  - echo $TRAVIS_PULL_REQUEST
   - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then mvn  --settings .travis/settings.xml deploy -DskipGpgSign=true; fi'
   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then mvn  --settings .travis/settings.xml deploy; fi'
 
 before_install:
-  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then echo "I am doing a PR"; fi'
-  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then echo "I am NOT doing a PR"; fi'
   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then openssl aes-256-cbc -K $encrypted_426140d7796a_key -iv $encrypted_426140d7796a_iv -in .travis/gpg-rings.tgz.enc -out .travis/gpg-rings.tgz -d; fi'
   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then tar -xf .travis/gpg-rings.tgz -C .travis/; fi'
 after_success:
