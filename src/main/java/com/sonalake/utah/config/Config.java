@@ -111,6 +111,8 @@ public class Config {
         if (matcher.matches()) {
           String valueText = matcher.group(valueRegex.getGroup());
           result.put(valueRegex.getId(), valueText);
+        } else if (valueRegex.isDefaultValueDefined()) {
+          result.put(valueRegex.getId(), valueRegex.getDefaultValue());
         }
       }
       return result;

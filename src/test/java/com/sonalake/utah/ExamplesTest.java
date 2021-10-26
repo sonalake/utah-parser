@@ -45,6 +45,7 @@ public class ExamplesTest {
         put("numberField", "987");
         put("someOtherNumberField", "654");
         put("stringFieldA", "some fields are missing!");
+        put("stringFieldB", "N/A");
         put("startOfInterval", "10/22/2015 12:00:00 AM");
       }});
     }};

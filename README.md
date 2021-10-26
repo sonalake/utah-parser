@@ -28,7 +28,7 @@ The parser is configured using an XML 'template' file.
         <!-- some fields that are reusing the patterns above -->
         <value id="numberField"><![CDATA[Some ID: {numbers}]]></value>
         <value id="stringFieldA"><![CDATA[Some text: {stringToEOL}]]></value>
-        <value id="stringFieldB"><![CDATA[Some other text: {stringToEOL}]]></value>
+        <value id="stringFieldB" default="N/A"><![CDATA[Some other text: {stringToEOL}]]></value>
         <value id="someOtherNumberField"><![CDATA[Some other ID: {numbers}]]></value>
         <!-- 
         in this case we have two dates on the same line, and we want to pull
@@ -49,10 +49,14 @@ the regular expression then the text before that line is parsed for record value
 on the next iteration. If the file finishes before a delimiter is found then all the remaining text is treated as a record.
 For example, the `numbers` search above is used within two `values` above.
      
- The curly-braces are used to do the substitution and multiple substitutions can be used. A *search* can even contain 
- other searches, however, they are applied **once** and in the order in which they appear in the config file.
+The curly-braces are used to do the substitution and multiple substitutions can be used. A *search* can even contain 
+other searches, however, they are applied **once** and in the order in which they appear in the config file.
 
- Each regex is applied to the entire record and the first match is used.  
+Each regex is applied to the entire record and the first match is used.
+
+Note the optional use of the `default` setting on `stringFieldB`. This value will be set
+if the matcher cannot find a value. It will **NOT** use this default value should the
+regular expression match with a *blank* value.
 
 ## Example 1: Simple delimiter
 
