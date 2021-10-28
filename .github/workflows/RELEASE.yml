@@ -1,9 +1,7 @@
-name: Java CI for pull requessts
+name: Java CI for releases
 
 on:
   workflow_dispatch:
-    # Inputs the workflow accepts.
-    inputs:
 
 jobs:
   build:
@@ -17,11 +15,7 @@ jobs:
           java-version: '8'
           distribution: 'adopt'
       - name: Build and release to OSSRH
-        run: mvn clean install jacoco:report
-      # sign and release to sonatype
-      - name: Release to OSSRH
-        run: |
-          mvn  --settings .github/settings.xml clean install deploy jacoco:report
+        run: mvn --settings .github/settings.xml clean install jacoco:report deploy
       - name: Coverage
         uses: codecov/codecov-action@v1
         with:
