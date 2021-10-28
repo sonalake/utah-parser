@@ -21,13 +21,7 @@ jobs:
       # sign and release to sonatype
       - name: Release to OSSRH
         run: |
-          ./gradlew uploadArchives \
-            -PossrhUsername=${{ secrets.OSSRH_USERNAME }} \
-            -PossrhPassword=${{ secrets.OSSRH_PASSWORD }} \
-            -Psigning.secretKeyRingFile=.github/secring.gpg \
-            -Psigning.secretKeyRingFile=.github/secring.gpg \
-            -Psigning.keyId=${{ secrets.GPG_KEY_ID }} \
-            -Psigning.password=${{ secrets.GPG_KEY_PASSWORD }}
+          mvn  --settings .github/settings.xml clean install deploy jacoco:report
       - name: Coverage
         uses: codecov/codecov-action@v1
         with:
