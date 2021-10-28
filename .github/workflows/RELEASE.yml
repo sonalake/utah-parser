@@ -1,0 +1,35 @@
+name: Java CI for pull requessts
+
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+      - name: Build and release to OSSRH
+        run: mvn clean install jacoco:report
+      # sign and release to sonatype
+      - name: Release to OSSRH
+        run: |
+          ./gradlew uploadArchives \
+            -PossrhUsername=${{ secrets.OSSRH_USERNAME }} \
+            -PossrhPassword=${{ secrets.OSSRH_PASSWORD }} \
+            -Psigning.secretKeyRingFile=.github/secring.gpg \
+            -Psigning.secretKeyRingFile=.github/secring.gpg \
+            -Psigning.keyId=${{ secrets.GPG_KEY_ID }} \
+            -Psigning.password=${{ secrets.GPG_KEY_PASSWORD }}
+      - name: Coverage
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./target/site/jacoco/jacoco.xml
