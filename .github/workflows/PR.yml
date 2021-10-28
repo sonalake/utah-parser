@@ -1,4 +1,4 @@
-name: Java CI for pull requessts
+name: Java CI for pull requests
 
 on:
   push:
