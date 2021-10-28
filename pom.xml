@@ -103,7 +103,8 @@
                         <configuration>
                             <!-- Prevent `gpg` from using pinentry programs -->
                             <gpgArguments>
-                                <arg>--no-tty </arg>
+                                <arg>--batch</arg>
+                                <arg>--no-tty</arg>
                                 <arg>--pinentry-mode</arg>
                                 <arg>loopback</arg>
                             </gpgArguments>
