@@ -24,10 +24,7 @@
                 <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
                 <gpg.defaultKeyring>false</gpg.defaultKeyring>
                 <gpg.interactive>false</gpg.interactive>
-                <gpgArguments>
-                    <arg>--pinentry-mode</arg>
-                    <arg>loopback</arg>
-                </gpgArguments>
+                <gpg.gpgArguments>--pinentry-mode loopback</gpg.gpgArguments>
             </properties>
         </profile>
     </profiles>
