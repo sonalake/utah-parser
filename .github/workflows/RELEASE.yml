@@ -1,0 +1,27 @@
+name: Java CI for pull requessts
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+      - name: Build and release to OSSRH
+        run: mvn clean install jacoco:report
+      # sign and release to sonatype
+      - name: Release to OSSRH
+        run: |
+          mvn  --settings .github/settings.xml clean install deploy jacoco:report
+      - name: Coverage
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./target/site/jacoco/jacoco.xml
