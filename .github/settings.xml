@@ -18,13 +18,12 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
+                <gpg.homedir>.gnupg</gpg.homedir>
                 <gpg.executable>gpg</gpg.executable>
                 <gpg.keyname>${env.GPG_KEYNAME}</gpg.keyname>
                 <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
                 <gpg.defaultKeyring>false</gpg.defaultKeyring>
                 <gpg.interactive>false</gpg.interactive>
-                <gpg.publicKeyring>.github/pubring.gpg</gpg.publicKeyring>
-                <gpg.secretKeyring>.github/secring.gpg</gpg.secretKeyring>
             </properties>
         </profile>
     </profiles>
