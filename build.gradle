@@ -6,6 +6,8 @@ plugins {
     id 'java'
     id 'maven-publish'
     id 'signing'
+    id 'jacoco'
+
 }
 
 repositories {
@@ -34,6 +36,12 @@ java.sourceCompatibility = JavaVersion.VERSION_1_8
 java {
     withSourcesJar()
     withJavadocJar()
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
 }
 
 publishing {
