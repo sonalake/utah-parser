@@ -16,7 +16,7 @@ jobs:
           java-version: '8'
           distribution: 'adopt'
       - name: Build and test
-        run: ./gradlew clean build jacocoReport
+        run: ./gradlew clean build
       - name: Coverage
         uses: codecov/codecov-action@v1
         with:
