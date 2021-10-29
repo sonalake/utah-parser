@@ -14,7 +14,7 @@ jobs:
         with:
           java-version: '8'
           distribution: 'adopt'
-      - name: Build and release to OSSRH
+      - name: Build, test and release to OSSRH
         run: ./gradlew clean build jacocoReport publish -Psigning.keyId=$GPG_KEY_ID  -Psigning.password=$GPG_PASSPHRASE -Psigning.secretKeyRingFile=.gnupg/secring.gpg -PossrhUsername=$OSSRH_USERNAME -PossrhPassword=$OSSRH_PASSWORD
       - name: Coverage
         uses: codecov/codecov-action@v1
