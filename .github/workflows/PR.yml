@@ -1,8 +1,6 @@
 name: Java CI for pull requests
 
 on:
-  push:
-    branches: [ master, develop ]
   pull_request:
     branches: [ master, develop ]
 
@@ -18,9 +16,10 @@ jobs:
           java-version: '8'
           distribution: 'adopt'
       - name: Build with Maven
-        run: mvn clean install -DskipGpgSign=true jacoco:report
+        run: ./gradlew clean build jacocoReport
       - name: Coverage
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./target/site/jacoco/jacoco.xml
+          file: ./build/reports/jacoco/test/jacocoTestReport.xml
+

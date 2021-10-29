@@ -7,6 +7,7 @@ plugins {
     id 'maven-publish'
     id 'signing'
     id 'jacoco'
+    id 'com.github.johnrengelman.shadow' version '7.1.0'
 
 }
 
@@ -36,6 +37,18 @@ java.sourceCompatibility = JavaVersion.VERSION_1_8
 java {
     withSourcesJar()
     withJavadocJar()
+}
+
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.sonalake.utah.cli.CommandLineInterface'
+    }
+}
+shadowJar {
+    archiveBaseName.set('utah-parser-cli')
+    archiveClassifier.set('')
+    archiveVersion.set('')
 }
 
 jacocoTestReport {
