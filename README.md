@@ -406,7 +406,8 @@ try (Reader in = new InputStreamReader(Thread.currentThread().getContextClassLoa
 
 # Building the application
 
-    mvn clean install
+   ./gradlew clean build
+
 
 This will run the unit tests, which are broken down into two parts:
 
@@ -417,7 +418,7 @@ These are the same files that are included in the root examples directory.
 ## Building a CLI version of the jar
 There is a CLI version of the jar, that can be created by using the `cli` target
 
-    mvn clean install -Pcli
+  ./gradlew shadowjar
 
 
 This will generate a fat jar that you can use to process files on the commandline of `target/utah-parser-cli.jar`
@@ -426,7 +427,7 @@ This program will take a feed from <STDIN> and process file using the identified
 
 There is a help command `--help`
 
-    java -jar target/utah-parser-cli.jar --help
+    java -jar build/libs/utah-parser-cli.jar --help
       usage: utah -f <arg> [-o <arg>]
        -f <arg>   The config file
        -o <arg>   The output format, must be one of: csv, json

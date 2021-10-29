@@ -2,6 +2,7 @@ name: Java CI
 
 on: [push]
 
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,5 +14,10 @@ jobs:
         with:
           java-version: '8'
           distribution: 'adopt'
-      - name: Build with Maven
-        run: mvn clean install -DskipGpgSign=true
+      - name: Build and test
+        run: ./gradlew clean build
+      - name: Coverage
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./build/reports/jacoco/test/jacocoTestReport.xml
