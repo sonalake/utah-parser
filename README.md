@@ -1,4 +1,10 @@
-# Utah Parser [![Build Status](https://travis-ci.org/sonalake/utah-parser.png?branch=master)](https://travis-ci.org/sonalake/utah-parser) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.sonalake/utah-parser/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.sonalake/utah-parser) [![Coverage Status](https://coveralls.io/repos/github/sonalake/utah-parser/badge.svg?branch=master)](https://coveralls.io/github/sonalake/utah-parser?branch=master) [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+# Utah Parser 
+
+[![Build Status](https://github.com/sonalake/utah-parser/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/sonalake/utah-parser/actions/workflows/CI.yml) 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.sonalake/utah-parser/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.sonalake/utah-parser)
+[![Coverage Status](https://coveralls.io/repos/github/sonalake/utah-parser/badge.svg?branch=master)](https://coveralls.io/github/sonalake/utah-parser?branch=master) 
+[![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+
 **A Java library for parsing semi-structured text files**
 
 The purpose of this library is to allow semi-structured text files to be parsed without having to resort to hand-crafting a parser in Java. Text files that meet the following criteria are supported:
