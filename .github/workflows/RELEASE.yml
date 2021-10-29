@@ -15,7 +15,7 @@ jobs:
           java-version: '8'
           distribution: 'adopt'
       - name: Build and release to OSSRH
-        run: mvn --settings .github/settings.xml clean install jacoco:report deploy
+        run: ./gradlew publish -Psigning.keyId=$GPG_KEY_ID  -Psigning.password=$GPG_PASSPHRASE -Psigning.secretKeyRingFile=.gnupg/secring.gpg -PossrhUsername=$OSSRH_USERNAME -PossrhPassword=$OSSRH_PASSWORD
       - name: Coverage
         uses: codecov/codecov-action@v1
         with:
