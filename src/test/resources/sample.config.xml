@@ -11,7 +11,7 @@
         <!-- some fields that are reusing the patterns above -->
         <value id="numberField"><![CDATA[Some ID: {numbers}]]></value>
         <value id="stringFieldA"><![CDATA[Some text: {stringToEOL}]]></value>
-        <value id="stringFieldB"><![CDATA[Some other text: {stringToEOL}]]></value>
+        <value id="stringFieldB" default="N/A"><![CDATA[Some other text: {stringToEOL}]]></value>
         <value id="someOtherNumberField"><![CDATA[Some other ID: {numbers}]]></value>
         <!--
         in this case we have two dates on the same line, and we want to pull

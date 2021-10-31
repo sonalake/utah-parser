@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
 /**
  * Defines the configuration of the plain text parser
@@ -105,12 +106,14 @@ public class Config {
     if (null != values) {
       // skoot through the each of the values in turn, and parse out the fields
       // from the record. We only store the value if the group matches.
-      Map<String, String> result = new TreeMap<String, String>();
+      Map<String, String> result = new TreeMap<>();
       for (ValueRegex valueRegex : values) {
         Matcher matcher = valueRegex.buildMatcher(text);
         if (matcher.matches()) {
           String valueText = matcher.group(valueRegex.getGroup());
           result.put(valueRegex.getId(), valueText);
+        } else if (valueRegex.hasDefaultValue()) {
+            result.put(valueRegex.getId(), valueRegex.getDefaultValue());
         }
       }
       return result;
@@ -179,6 +182,12 @@ public class Config {
    */
   public boolean hasHeaderDelim() {
     return null != headerDelimiter;
+  }
+
+  public List<String> getHeaderNames() {
+    return values.stream()
+            .map(ValueRegex::getId)
+            .collect(Collectors.toList());
   }
 
   @Override
