@@ -33,7 +33,7 @@ The parser is configured using an XML 'template' file.
     <values>
         <!-- some fields that are reusing the patterns above -->
         <value id="numberField"><![CDATA[Some ID: {numbers}]]></value>
-        <value id="stringFieldA"><![CDATA[Some text: {stringToEOL}]]></value>
+        <value id="stringFieldA" default="N/A"><![CDATA[Some text: {stringToEOL}]]></value>
         <value id="stringFieldB"><![CDATA[Some other text: {stringToEOL}]]></value>
         <value id="someOtherNumberField"><![CDATA[Some other ID: {numbers}]]></value>
         <!-- 
@@ -44,8 +44,7 @@ The parser is configured using an XML 'template' file.
         <value id="endOfInterval"><![CDATA[Interval:\s*{datePattern} - ({datePattern})]]></value>
     </values>
 </config>
-```    	
-
+```
 The `delim` element identifies the boundary between records in an input file. The regular expressions defined in
 the `values` section are used to extract values from the input file. The optional `searches` section
 allows you to define a regular expression once and then reuse it in multiple values.
@@ -55,10 +54,11 @@ the regular expression then the text before that line is parsed for record value
 on the next iteration. If the file finishes before a delimiter is found then all the remaining text is treated as a record.
 For example, the `numbers` search above is used within two `values` above.
      
- The curly-braces are used to do the substitution and multiple substitutions can be used. A *search* can even contain 
- other searches, however, they are applied **once** and in the order in which they appear in the config file.
+The curly-braces are used to do the substitution and multiple substitutions can be used. A *search* can even contain other searches, however, they are applied **once** and in the order in which they appear in the config file.
 
- Each regex is applied to the entire record and the first match is used.  
+Each regex is applied to the entire record and the first match is used.
+
+Note the optional use of the `default` setting on `stringFieldB`. This value will be set if the matcher cannot find a value. It will **NOT** use this default value should the regular expression match with a *blank* value.
 
 ## Example 1: Simple delimiter
 
@@ -91,7 +91,7 @@ Then two extracted records are:
     "stringFieldA" : "what'll I do?", 
     "stringFieldB" : "without you?", 
     "startOfInterval" : "10/22/2015 12:00:00 AM",
-    "endOfInterval" : "12/31/2015 11:59:00 PM",
+    "endOfInterval" : "12/31/2015 11:59:00 PM"
   },
   {
     "numberField" : "987", 
@@ -197,8 +197,7 @@ Here, we define the `QUERY-LINE` search from the `numbersThenText` and `status` 
 **NOTE** if a search needs to use another search then it must be define before those other searches.
 
 This `QUERY-LINE` search has multiple groups, so the value that uses this search can select the `group` attribute. Groups are offset from 1, so the values of `remoteIp` comes from the first group, and the value of `uptime` comes from the fifth group.
-	
-	
+
 ## Example 3: File with multiple delimiters
 
 Suppose you have a file where there's a header with some values, followed by records that that can appear in different formats. For example a Juniper BGP summary file:

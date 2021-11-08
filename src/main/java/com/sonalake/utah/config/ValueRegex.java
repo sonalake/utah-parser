@@ -21,6 +21,12 @@ public class ValueRegex extends NameValue {
   int group;
 
   /**
+   * Value to default to when no value is present in the input.
+   */
+  @JacksonXmlProperty(isAttribute = true, localName = "default")
+  String defaultValue;
+
+  /**
    * The compiled regex
    */
   private Pattern compiledPattern;
@@ -95,4 +101,21 @@ public class ValueRegex extends NameValue {
     return compiledPattern.matcher(recordText);
   }
 
+  /**
+   * Value to default to when no value is present in the input.
+   *
+   * @return value
+   */
+  public String getDefaultValue() {
+    return defaultValue;
+  }
+
+  /**
+   * If a default value is set, returns true, otherwise false.
+   *
+   * @return true if a default value is defined, otherwise false
+   */
+  public boolean hasDefaultValue() {
+    return defaultValue != null;
+  }
 }
