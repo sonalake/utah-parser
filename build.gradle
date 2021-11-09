@@ -46,8 +46,8 @@ jar {
     }
 }
 shadowJar {
-    archiveBaseName.set('utah-parser-cli')
-    archiveClassifier.set('')
+    archiveBaseName.set('utah-parser')
+    archiveClassifier.set('cli')
     archiveVersion.set('')
 }
 
@@ -58,14 +58,6 @@ jacocoTestReport {
     dependsOn test
     reports {
         xml.enabled true
-    }
-}
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from(components.java)
-        }
     }
 }
 
@@ -82,7 +74,7 @@ ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 if (isForSigning && isForOssrhPublishing) {
 
     signing {
-        sign configurations.archives
+        sign publishing.publications
     }
 
     publishing {
@@ -99,7 +91,9 @@ if (isForSigning && isForOssrhPublishing) {
         }
 
         publications {
+
             mavenJava(MavenPublication) {
+
                 pom {
                     groupId = 'com.sonalake'
                     name = 'Utah Parser'
@@ -112,14 +106,25 @@ if (isForSigning && isForOssrhPublishing) {
                             url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
                         }
                     }
+
+                    developers {
+                        developer {
+                            id = 'daniel-bray-sonalake'
+                            name = 'Daniel Bray'
+                            email = 'daniel.bray@sonalake.com'
+                        }
+                    }
+
                     scm {
                         connection = 'scm:git:git@github.com:sonalake/utah-parser.git'
                         developerConnection = 'scm:git:git@github.com:sonalake/utah-parser.git'
                         url = 'https://github.com/sonalake/utah-parser'
                     }
+
                 }
             }
         }
+
     }
 }
 
