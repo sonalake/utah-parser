@@ -1,11 +1,9 @@
 package com.sonalake.utah.config;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import org.apache.commons.lang3.StringUtils;
-
 
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +25,8 @@ public class Config {
   protected List<Delimiter> delimiters;
 
   /**
-   * The list of searches that are to be used by  values section to find values using a regex
+   * The list of searches that are to be used by values section to find values
+   * using a regex
    */
   @JacksonXmlElementWrapper(localName = "searches")
   @JacksonXmlProperty(localName = "search")
@@ -49,6 +48,13 @@ public class Config {
   protected List<ValueRegex> values;
 
   /**
+   * Lines to be ignored
+   */
+  @JacksonXmlElementWrapper(useWrapping = false)
+  @JacksonXmlProperty(localName = "ignore")
+  protected List<Ignorer> ignores;
+
+  /**
    * Precompile the patterns, but only do it the once.
    */
   void compilePatterns() {
@@ -60,6 +66,12 @@ public class Config {
     }
     for (Delimiter delimiter : delimiters) {
       delimiter.compile(searches);
+    }
+
+    if (null != ignores) {
+      for (Ignorer ignorer : ignores) {
+        ignorer.compile(searches);
+      }
     }
   }
 
@@ -133,7 +145,8 @@ public class Config {
   }
 
   /**
-   * Validates if the delimiters are valid. Checks all the delimiters to see if they are well-forrmed
+   * Validates if the delimiters are valid. Checks all the delimiters to see if
+   * they are well-forrmed
    *
    * @return true if the delimiters are valid
    */
@@ -151,7 +164,26 @@ public class Config {
   }
 
   /**
-   * Get the applicable delimiter for the candidate. The first delimiter that matches the  text as used.
+   * Validates if the line should be ignored
+   *
+   * @return true if the line is ignored during the record build
+   */
+  public boolean isIgnorable(String candidate) {
+    if (null == candidate || null == ignores || ignores.isEmpty()) {
+      return false;
+    } else {
+      for (Ignorer ignorer : ignores) {
+        if (ignorer.matches(candidate)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Get the applicable delimiter for the candidate. The first delimiter that
+   * matches the text as used.
    *
    * @param candidate the candidate text
    * @return the applicable delimiter, or null if there are none.
@@ -192,10 +224,7 @@ public class Config {
 
   @Override
   public String toString() {
-    return String.format(
-      "CLIConfig: delim [%s], searches: [%s], values: [%s]",
-      delimiters, searches, values
-    );
+    return String.format("CLIConfig: delim [%s], searches: [%s], values: [%s]", delimiters, searches, values);
   }
 
 }
