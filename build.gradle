@@ -25,7 +25,8 @@ dependencies {
     implementation 'org.apache.commons:commons-csv:1.9.0'
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.0'
     implementation 'com.google.code.gson:gson:2.8.8'
-    testImplementation 'junit:junit:[4.13.2,)'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     testImplementation 'org.mockito:mockito-all:1.10.19'
 }
 
@@ -52,12 +53,13 @@ shadowJar {
 }
 
 test {
+    useJUnitPlatform()
     finalizedBy jacocoTestReport
 }
 jacocoTestReport {
     dependsOn test
     reports {
-        xml.enabled true
+        xml.required = true
     }
 }
 
@@ -103,7 +105,7 @@ if (isForSigning && isForOssrhPublishing) {
                     licenses {
                         license {
                             name = 'The Apache License, Version 2.0'
-                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
                         }
                     }
 
