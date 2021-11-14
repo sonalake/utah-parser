@@ -2,8 +2,8 @@ package com.sonalake.utah;
 
 import com.sonalake.utah.config.Config;
 import com.sonalake.utah.config.ConfigLoader;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -346,7 +346,7 @@ public class ExamplesTest {
 
         String[] expectedHeaderNames = {"remoteIp", "uptime", "activeV4", "receivedV4", "accepted_V4", "activeV6",
                 "receivedV6", "accepted_V6", "activeV4", "receivedV4", "accepted_V4", "activeV6", "receivedV6", "accepted_V6"};
-        Assert.assertEquals(Arrays.asList(expectedHeaderNames), config.getHeaderNames());
+        Assertions.assertEquals(Arrays.asList(expectedHeaderNames), config.getHeaderNames());
     }
 
     /**
@@ -378,7 +378,7 @@ public class ExamplesTest {
             }
         }
 
-        Assert.assertEquals(expectedResults, observedValues);
+        Assertions.assertEquals(expectedResults, observedValues);
     }
 
 }

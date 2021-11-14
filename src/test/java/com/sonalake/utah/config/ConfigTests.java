@@ -1,8 +1,8 @@
 package com.sonalake.utah.config;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -20,10 +20,6 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 /**
  * A test of the configuration classes
  */
@@ -35,7 +31,7 @@ public class ConfigTests {
    */
   private Document document;
 
-  @Before
+  @BeforeEach
   public void setup() throws ParserConfigurationException {
     document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
   }
@@ -43,35 +39,40 @@ public class ConfigTests {
   /**
    * If the config has no delimiter, then fail out
    */
-  @Test(expected = IllegalArgumentException.class)
-  public void testConfigHasNoDelimiter() throws TransformerException, IOException {
-    createEmptyDocument();
-    new ConfigLoader().loadConfig(buildDocReader());
+  @Test
+  public void testConfigHasNoDelimiter() {
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {
+      createEmptyDocument();
+      new ConfigLoader().loadConfig(buildDocReader());
+    });
   }
 
   /**
    * If the config has values with no groups, then fail out
    */
-  @Test(expected = IllegalArgumentException.class)
-  public void testConfigMappingHasNoGroup() throws TransformerException, IOException {
-    createEmptyDocument();
-    addDelimiter("DELIM");
-    addSearch("number", "\\d*");
-    addValue("value", "{number}");
-    new ConfigLoader().loadConfig(buildDocReader());
-
+  @Test
+  public void testConfigMappingHasNoGroup() {
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {
+      createEmptyDocument();
+      addDelimiter("DELIM");
+      addSearch("number", "\\d*");
+      addValue("value", "{number}");
+      new ConfigLoader().loadConfig(buildDocReader());
+    });
   }
 
   /**
    * If the config has values with no groups, then fail out
    */
-  @Test(expected = IllegalArgumentException.class)
-  public void testConfigMappingWhenInvalidRegex() throws TransformerException, IOException {
-    createEmptyDocument();
-    addDelimiter("DELIM");
-    addSearch("number", "(\\d*)");
-    addValue("value", "{number}(");
-    new ConfigLoader().loadConfig(buildDocReader());
+  @Test
+  public void testConfigMappingWhenInvalidRegex() {
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {
+      createEmptyDocument();
+      addDelimiter("DELIM");
+      addSearch("number", "(\\d*)");
+      addValue("value", "{number}(");
+      new ConfigLoader().loadConfig(buildDocReader());
+    });
   }
 
   /**
@@ -86,7 +87,7 @@ public class ConfigTests {
     Config config = new ConfigLoader().loadConfig(buildDocReader());
 
     Map<String, String> record = config.buildRecord("this is a value 123 hello");
-    assertEquals("123", record.get("value"));
+    Assertions.assertEquals("123", record.get("value"));
   }
 
   /**
@@ -101,7 +102,7 @@ public class ConfigTests {
     Config config = new ConfigLoader().loadConfig(buildDocReader());
 
     Map<String, String> record = config.buildHeader("this is a value 123 hello");
-    assertEquals("123", record.get("value"));
+    Assertions.assertEquals("123", record.get("value"));
   }
 
   /**
@@ -113,9 +114,9 @@ public class ConfigTests {
     addDelimiter("DELIM");
     addHeaderDelimiter("HEADER-DELIM");
     Config config = new ConfigLoader().loadConfig(buildDocReader());
-    assertTrue(config.matchesHeaderDelim("HEADER-DELIM"));
-    assertFalse(config.matchesHeaderDelim("something else"));
-
+    Assertions.assertAll(
+            () -> Assertions.assertTrue(config.matchesHeaderDelim("HEADER-DELIM")),
+            () -> Assertions.assertFalse(config.matchesHeaderDelim("something else")));
   }
 
   @Test
@@ -125,10 +126,11 @@ public class ConfigTests {
     Config config = new ConfigLoader().loadConfig(buildDocReader());
 
     Delimiter delimiter = config.delimiters.get(0);
-    Assert.assertNotNull(delimiter);
-    assertTrue(delimiter.isPerLine);
-    assertTrue(delimiter.matches("a line"));
-    assertFalse(delimiter.matches(""));
+    Assertions.assertAll(
+            () -> Assertions.assertNotNull(delimiter),
+            () -> Assertions.assertTrue(delimiter.isPerLine),
+            () -> Assertions.assertTrue(delimiter.matches("a line")),
+            () -> Assertions.assertFalse(delimiter.matches("")));
   }
 
   @Test
@@ -139,9 +141,10 @@ public class ConfigTests {
     Config config = new ConfigLoader().loadConfig(buildDocReader());
 
     Delimiter delimiter = config.delimiters.get(0);
-    Assert.assertNotNull(delimiter);
-    assertTrue(delimiter.isRetainDelim());
-    assertTrue(delimiter.isRetainDelim);
+    Assertions.assertAll(
+            () -> Assertions.assertNotNull(delimiter),
+            () -> Assertions.assertTrue(delimiter.isRetainDelim()),
+            () -> Assertions.assertTrue(delimiter.isRetainDelim));
   }
 
   @Test
@@ -152,14 +155,14 @@ public class ConfigTests {
     Config config = new ConfigLoader().loadConfig(buildDocReader());
 
     Delimiter delimiter = config.delimiters.get(0);
-    Assert.assertNotNull(delimiter);
-    assertTrue(delimiter.isDelimAtStartOfRecord());
-
-    // here we check if the retain delim  field is false
-    // but the start of record is true, that the retain delim
-    // operation will still return true
-    assertTrue(delimiter.isRetainDelim());
-    assertFalse(delimiter.isRetainDelim);
+    Assertions.assertAll(
+            () -> Assertions.assertNotNull(delimiter),
+            () -> Assertions.assertTrue(delimiter.isDelimAtStartOfRecord()),
+            // here we check if the retain delim  field is false
+            // but the start of record is true, that the retain delim
+            // operation will still return true
+            () -> Assertions.assertTrue(delimiter.isRetainDelim()),
+            () -> Assertions.assertFalse(delimiter.isRetainDelim));
   }
 
   /**
@@ -174,7 +177,7 @@ public class ConfigTests {
     Config config = new ConfigLoader().loadConfig(buildDocReader());
 
     Map<String, String> header = config.buildHeader("this is a header 999y hello");
-    assertEquals("999", header.get("header"));
+    Assertions.assertEquals("999", header.get("header"));
   }
 
   /**

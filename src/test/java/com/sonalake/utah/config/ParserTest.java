@@ -1,15 +1,14 @@
 package com.sonalake.utah.config;
 
 import com.sonalake.utah.Parser;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * A test of the parser
@@ -17,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 public class ParserTest {
   private Config config;
 
-  @Before
+  @BeforeEach
   public void setup() {
     config = new Config();
     config.delimiters = new ArrayList<Delimiter>();
@@ -53,7 +52,7 @@ public class ParserTest {
       }});
     }};
 
-    assertEquals(expectedValues, results);
+    Assertions.assertEquals(expectedValues, results);
   }
 
   /**
@@ -84,7 +83,7 @@ public class ParserTest {
       }});
     }};
 
-    assertEquals(expectedValues, results);
+    Assertions.assertEquals(expectedValues, results);
   }
 
   /**
@@ -122,7 +121,7 @@ public class ParserTest {
       }});
     }};
 
-    assertEquals(expectedValues, results);
+    Assertions.assertEquals(expectedValues, results);
   }
 
   /**
@@ -161,7 +160,7 @@ public class ParserTest {
       }});
     }};
 
-    assertEquals(expectedValues, results);
+    Assertions.assertEquals(expectedValues, results);
   }
 
   private void addHeaderDelimiter(String s) {

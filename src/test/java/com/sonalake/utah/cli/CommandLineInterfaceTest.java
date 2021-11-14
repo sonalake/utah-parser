@@ -8,13 +8,13 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
@@ -28,12 +28,8 @@ public class CommandLineInterfaceTest {
 
     @Test
     public void testRequiredArgsMissing() {
-        try {
-            generateCommandline("");
-            fail("This should have failed, no args were supplied");
-        } catch (ParseException expected) {
-            assertTrue(expected.getMessage().contains("No configuration file supplied"));
-        }
+        Throwable exception = Assertions.assertThrows(ParseException.class, () -> generateCommandline(""));
+        Assertions.assertTrue(exception.getMessage().contains("No configuration file supplied"));
     }
 
     /*
@@ -43,9 +39,9 @@ public class CommandLineInterfaceTest {
     public void testArgCsv() throws ParseException {
         CLIConfig config = generateCommandline(" -o csv -f config.xml");
 
-        assertEquals(CLIConfig.Format.CSV, config.getFormat());
-        assertEquals("config.xml", config.getPathToConfig());
-
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(CLIConfig.Format.CSV, config.getFormat()),
+                () -> Assertions.assertEquals("config.xml", config.getPathToConfig()));
     }
 
     /*
@@ -55,9 +51,9 @@ public class CommandLineInterfaceTest {
     public void testArgJson() throws ParseException {
         CLIConfig config = generateCommandline(" -o json -f config.xml");
 
-        assertEquals(CLIConfig.Format.JSON, config.getFormat());
-        assertEquals("config.xml", config.getPathToConfig());
-
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(CLIConfig.Format.JSON, config.getFormat()),
+                () -> Assertions.assertEquals("config.xml", config.getPathToConfig()));
     }
 
     /*
@@ -67,9 +63,9 @@ public class CommandLineInterfaceTest {
     public void testArgDefaultToCSV() throws ParseException {
         CLIConfig config = generateCommandline(" -f config.xml");
 
-        assertEquals(CLIConfig.Format.CSV, config.getFormat());
-        assertEquals("config.xml", config.getPathToConfig());
-
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(CLIConfig.Format.CSV, config.getFormat()),
+                () -> Assertions.assertEquals("config.xml", config.getPathToConfig()));
     }
 
     /*
@@ -77,12 +73,8 @@ public class CommandLineInterfaceTest {
      */
     @Test
     public void testArgBadFormat() {
-        try {
-            generateCommandline(" -o monkey -f config.xml");
-            fail("This should have failed, monkey is not a valid format");
-        } catch (ParseException expected) {
-            assertTrue(expected.getMessage().contains("monkey is not a valid format"));
-        }
+        Throwable exception = Assertions.assertThrows(ParseException.class, () -> generateCommandline(" -o monkey -f config.xml"));
+        Assertions.assertTrue(exception.getMessage().contains("monkey is not a valid format"));
     }
 
     /*
@@ -96,7 +88,7 @@ public class CommandLineInterfaceTest {
         map.put("name", "23");
         map.put("gender", "23");
         mapList.add(map);
-        assertTrue(CommandLineInterface.mapListToJSON(mapList).contains("\"age\": \"23\","));
+        Assertions.assertTrue(CommandLineInterface.mapListToJSON(mapList).contains("\"age\": \"23\","));
     }
 
     /*
@@ -124,7 +116,7 @@ public class CommandLineInterfaceTest {
         String expected = new GsonBuilder().setPrettyPrinting().create().toJson(parsedRecords);
         String observed  =helper.getOutputAsString();
 
-        assertEquals(expected, observed);
+        Assertions.assertEquals(expected, observed);
     }
 
     private class OutputHelper {
@@ -180,9 +172,8 @@ public class CommandLineInterfaceTest {
                 new StringReader("some input file \n with another line"),
                 helper.target);
 
-        assertTrue(String.format("Wrong message: %s", helper.getOutputAsString()),
-                helper.getOutputAsString().contains("usage: "));
-
+        Assertions.assertTrue(helper.getOutputAsString().contains("usage: "),
+                String.format("Wrong message: %s", helper.getOutputAsString()));
     }
 
     /**
@@ -196,8 +187,8 @@ public class CommandLineInterfaceTest {
 
         OutputHelper helper = processMockOutput(format);
 
-        assertTrue(String.format("Wrong message:\n%s", helper.getOutputAsString()),
-                helper.getOutputAsString().contains("xyz"));
+        Assertions.assertTrue(helper.getOutputAsString().contains("xyz"),
+                String.format("Wrong message:\n%s", helper.getOutputAsString()));
     }
 
     @Test
@@ -206,8 +197,8 @@ public class CommandLineInterfaceTest {
 
         OutputHelper helper = processMockOutput(format);
 
-        assertTrue(String.format("Wrong message:\n%s", helper.getOutputAsString()),
-                helper.getOutputAsString().contains("xyz"));
+        Assertions.assertTrue(helper.getOutputAsString().contains("xyz"),
+                String.format("Wrong message:\n%s", helper.getOutputAsString()));
     }
 
     /**
@@ -221,8 +212,8 @@ public class CommandLineInterfaceTest {
 
         OutputHelper helper = processMockOutput(format);
 
-        assertTrue(String.format("Wrong message:\n %s", helper.getOutputAsString()),
-                helper.getOutputAsString().contains("\"a\": \"xyz\""));
+        Assertions.assertTrue(helper.getOutputAsString().contains("\"a\": \"xyz\""),
+                String.format("Wrong message:\n %s", helper.getOutputAsString()));
     }
 
     /**
@@ -258,7 +249,7 @@ public class CommandLineInterfaceTest {
             }
             observed.add(lineValues);
         }
-        assertEquals(expected, observed);
+        Assertions.assertEquals(expected, observed);
     }
 
     private CLIConfig generateCommandline(String cli) throws ParseException {
